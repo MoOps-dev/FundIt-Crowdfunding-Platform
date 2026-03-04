@@ -26,11 +26,13 @@ body {
 }
 
 .header {
+  background-color: var(--background);
   border-bottom: 1px solid lightgray;
   display: flex;
   flex-direction: column;
-  margin: 30px 0px;
+  margin: 20px 0px;
   gap: 25px;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
 
 .nav {
@@ -206,7 +208,7 @@ body {
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 10%;
+    top: 13%;
     left: 0;
     background: var(--background);
     width: 100%;
