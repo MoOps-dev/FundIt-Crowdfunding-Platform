@@ -72,7 +72,7 @@ body {
   font-size: 16px;
   height: 30px;
   outline: none;
-  background-color: var(--secondary);
+  background-color: var(--input-background);
   width: 20rem;
   transition: 500ms;
 }
@@ -208,10 +208,12 @@ body {
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 13%;
+    top: 5rem;
     left: 0;
     background: var(--background);
-    width: 100%;
+    width: 98vw;
+    border-top: 1px solid var(--foreground--semilight);
+    padding-top: 10px;
   }
 
   .nav-links.active {
