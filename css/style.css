@@ -20,7 +20,7 @@ body {
 }
 
 .secondary-text {
-font-weight: 500;
+  font-weight: 500;
 }
 
 .header {
@@ -30,8 +30,9 @@ font-weight: 500;
 .nav {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin: 30px 200px;
+  justify-content: space-around;
+  justify-items: center;
+  margin: 30px 20px;
 }
 
 .nav span {
@@ -41,21 +42,21 @@ font-weight: 500;
 .nav .auth {
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 10px;
 }
 
-.nav ul {
+.nav-links {
   display: flex;
   flex-direction: row;
-  gap: 30px;
+  gap: 10px;
   list-style: none;
 }
 
-.search-wrap{
+.search-wrap {
   position: relative;
 }
 
-.search-input{
+.primary-input {
   padding: 12px 14px 12px 42px;
   border: none;
   border-radius: 5px;
@@ -63,17 +64,17 @@ font-weight: 500;
   height: 35px;
   outline: none;
   background-color: var(--secondary);
-  width: 25em;
+  width: 20rem;
 }
 
-.search-input:focus {
-    border: 0.5px solid var(--foreground);
-    box-shadow:
+.primary-input:focus {
+  border: 0.5px solid var(--foreground);
+  box-shadow:
     rgba(14, 30, 37, 0.12) 2px 2px 2px 2px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px;
 }
 
-.search-icon{
+.search-icon {
   position: absolute;
   left: 14px;
   top: 50%;
@@ -83,31 +84,67 @@ font-weight: 500;
 }
 
 .secondary-btn {
-    background-color: transparent;
-    border: none;
-    height: 35px;
-    padding: 0px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 14px;
+  background-color: transparent;
+  border: none;
+  height: 35px;
+  padding: 0px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
 .secondary-btn:hover {
-    background-color: var(--secondary);
-    cursor: pointer;
+  background-color: var(--secondary);
+  cursor: pointer;
 }
 
 .primary-btn {
-    background-color: var(--primary);
-    border: none;
-    height: 35px;
-    padding: 0px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 14px;
-    color: var(--background);
+  background-color: var(--primary);
+  border: none;
+  height: 35px;
+  padding: 0px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--background);
+  white-space: nowrap;
 }
 
 .primary-btn:hover {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.menu-btn {
+  display: none;
+}
+
+@media (max-width: 1025px) {
+  .search-wrap {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-btn {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 10%;
+    left: 0;
+    background: var(--background);
+    width: 100%;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav {
+    justify-content: space-between;
+  }
 }
