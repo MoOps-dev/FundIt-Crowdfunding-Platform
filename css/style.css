@@ -186,14 +186,20 @@ body {
 }
 
 .hero {
+  background-color: var(--color-indigo-100);
+  padding: 112px 0;
+  margin: 6rem 0;
+  height: auto;
+}
+
+.hero-section {
   display: flex;
   flex-direction: row;
   background-color: var(--color-indigo-100);
-  padding: 112px 120px;
-  margin-top: 6rem;
   height: auto;
   justify-content: space-around;
   align-items: center;
+  margin: 0 15rem;
   gap: 40px;
 }
 
@@ -260,6 +266,10 @@ body {
     margin: 0px 10rem;
   }
 
+  .hero-section {
+    margin: 0 10rem;
+  }
+
   .hero-img img {
     width: 500px;
     height: 500px;
@@ -276,6 +286,10 @@ body {
     margin: 0px 5rem;
   }
 
+  .hero-section {
+    margin: 0 5rem;
+  }
+
   .hero-img img {
     width: 450px;
     height: 450px;
@@ -283,7 +297,7 @@ body {
 }
 
 @media (max-width: 1140px) {
-  .hero {
+  .hero-section {
     flex-direction: column;
   }
 
