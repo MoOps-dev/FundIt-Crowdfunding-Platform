@@ -15,7 +15,7 @@ body {
   --foreground-light: #71718240;
   --foreground--semilight: #71718260;
   --accent: #e9ebef;
-  --color-indigo-100: oklch(0.93 0.034 272.788);
+  --color-indigo-100: oklch(93.191% 0.03248 270.463);
   --destructive: #d4183d;
   --border: rgba(0, 0, 0, 0.1);
   --input-background: #f3f3f5;
@@ -128,6 +128,10 @@ body {
   white-space: nowrap;
 }
 
+.primary-btn i {
+  margin-left: 8px;
+}
+
 .primary-btn:hover {
   cursor: pointer;
 }
@@ -187,9 +191,6 @@ body {
 
 .hero {
   background-color: var(--color-indigo-100);
-  padding: 112px 0;
-  margin: 6rem 0;
-  height: auto;
 }
 
 .hero-section {
@@ -200,6 +201,8 @@ body {
   justify-content: space-around;
   align-items: center;
   margin: 0 15rem;
+  padding-top: 16rem;
+  padding-bottom: 12rem;
   gap: 40px;
 }
 
