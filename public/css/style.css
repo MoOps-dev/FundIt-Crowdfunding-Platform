@@ -91,8 +91,8 @@ body {
   stroke: none;
   border: 1px solid var(--border);
   box-shadow:
-    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
 .search-icon {
@@ -275,7 +275,7 @@ body {
 }
 
 .back-home,
-.login-form {
+.login-page {
   width: min(880px, 90%);
   margin: 0 auto;
 }
@@ -291,7 +291,7 @@ body {
   margin: 0 10px;
 }
 
-.login-form {
+.login-page {
   display: flex;
   gap: 80px;
   justify-content: flex-start;
@@ -345,7 +345,7 @@ body {
   height: auto;
   border-radius: 15px;
   border: 1px solid var(--border);
-  gap: 20px;
+  gap: 10px;
   padding: 20px;
 }
 
@@ -412,7 +412,14 @@ a {
   margin-top: 5px;
 }
 
-.checkbox-row span, a {
+.checkbox-row {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+}
+
+.checkbox-row span,
+a {
   position: relative;
   top: -2px;
 }
@@ -501,6 +508,18 @@ a {
   font-size: 12px;
 }
 
+.error-message {
+  color: var(--destructive);
+  font-size: 10px;
+  font-weight: 500;
+  margin-top: 8px;
+  display: none;
+}
+
+.primary-input.invalid:not(:focus) {
+  border: 1px solid var(--destructive);
+}
+
 /******************************************* Media Query ************************************/
 @media (max-width: 1600px) {
   .hero-img img {
@@ -578,7 +597,7 @@ a {
   }
 
   .back-home,
-  .login-form {
+  .login-page {
     width: min(400px, 90%);
     margin: 0 auto;
   }

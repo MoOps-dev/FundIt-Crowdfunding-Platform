@@ -1,17 +1,18 @@
-export function InitPasswordToggle() 
-{
-    const passwordInput = document.getElementById("password");
-    const toggleBtn = document.getElementById("togglePassword");
+export function InitPasswordToggle() {
+  const loginPasswordInput = document.getElementById("password");
+  const passwordToggleBtn = document.getElementById(
+    "togglePassword",
+  );
 
-    toggleBtn.addEventListener("click", () => {
-      const icon = toggleBtn.querySelector("i");
+  passwordToggleBtn.addEventListener("click", () => {
+    const icon = passwordToggleBtn.querySelector("i");
 
-      if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        icon.classList.replace("bi-eye", "bi-eye-slash");
-      } else {
-        passwordInput.type = "password";
-        icon.classList.replace("bi-eye-slash", "bi-eye");
-      }
-    });
+    if (loginPasswordInput.type === "password") {
+      loginPasswordInput.type = "text";
+      icon.classList.replace("bi-eye", "bi-eye-slash");
+    } else {
+      loginPasswordInput.type = "password";
+      icon.classList.replace("bi-eye-slash", "bi-eye");
+    }
+  });
 }

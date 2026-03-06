@@ -30,7 +30,7 @@
         </button>
         <h2>FundIt</h2>
       </div>
-      <div class="login-form">
+      <div class="login-page">
         <section class="login-welcome">
           <div class="welcome-content">
             <h1>Join the Creative Community</h1>
@@ -56,116 +56,135 @@
             </div>
           </div>
         </section>
-        <section class="login-details">
-          <div class="sign-in">
-            <h4>Create Your Account</h4>
-            <h5>Start your crowdfunding journey today</h5>
-          </div>
-          <div class="register-name">
-            <div>
-              <label for="email-warp">First Name</label>
-              <div class="email-wrap">
-                <i class="bi bi-person email-icon"></i>
-                <input
-                  class="primary-input"
-                  type="text"
-                  name="firstName"
-                  placeholder="John"
-                  minlength="2"
-                  maxlength="50"
-                  required
-                />
-              </div>
+        <form id="signup-form" novalidate>
+          <section class="login-details">
+            <div class="sign-in">
+              <h4>Create Your Account</h4>
+              <h5>Start your crowdfunding journey today</h5>
             </div>
-            <div>
+            <div class="register-name">
               <div>
-                <label for="email-warp">Last Name</label>
+                <label for="email-warp">First Name</label>
                 <div class="email-wrap">
                   <i class="bi bi-person email-icon"></i>
                   <input
                     class="primary-input"
                     type="text"
-                    name="lastName"
-                    placeholder="Doe"
+                    name="firstName"
+                    placeholder="John"
                     minlength="2"
                     maxlength="50"
                     required
                   />
                 </div>
+                <small class="error-message">First name is required and must contain at least 2 characters.</small>
+              </div>
+              <div>
+                <div>
+                  <label for="email-warp">Last Name</label>
+                  <div class="email-wrap">
+                    <i class="bi bi-person email-icon"></i>
+                    <input
+                      id="email-warp"
+                      class="primary-input"
+                      type="text"
+                      name="lastName"
+                      placeholder="Doe"
+                      minlength="2"
+                      maxlength="50"
+                      required
+                    />
+                  </div>
+                  <small class="error-message">Last name is required and must contain at least 2 characters.</small>
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <label for="email-warp">Email Address</label>
-            <div class="email-wrap">
-              <i class="bi bi-envelope email-icon"></i>
-              <input
-                class="primary-input"
-                type="email"
-                placeholder="John@example.com"
-                minlength="5"
-                maxlength="254"
-                required
-              />
+            <div>
+              <label for="email-warp">Email Address</label>
+              <div class="email-wrap">
+                <i class="bi bi-envelope email-icon"></i>
+                <input
+                  class="primary-input"
+                  type="email"
+                  name="email"
+                  placeholder="John@example.com"
+                  minlength="5"
+                  maxlength="254"
+                  required
+                  autocomplete="email"
+                />
+              </div>
+              <small class="error-message">Email is required and must be a valid email address (minimum 5 characters).</small>
             </div>
-          </div>
-          <div>
-            <div class="forgot-pw">
-              <label for="pw-warp">Password</label>
+            <div>
+              <div class="forgot-pw">
+                <label for="password">Password</label>
+              </div>
+              <div class="pw-warp">
+                <i class="bi bi-lock pw-icon"></i>
+                <button type="button" id="togglePassword" class="toggle-btn">
+                  <i class="bi bi-eye"></i>
+                </button>
+                <input
+                  id="password"
+                  class="primary-input"
+                  type="password"
+                  name="password"
+                  placeholder="Create a strong password"
+                  minlength="8"
+                  maxlength="64"
+                  required
+                  autocomplete="new-password"
+                />
+              </div>
+              <small class="error-message">Password is required and must contain at least 8 characters.</small>
             </div>
-            <div class="pw-warp">
-              <i class="bi bi-lock pw-icon"></i>
-              <button type="button" id="togglePassword" class="toggle-btn">
-                <i class="bi bi-eye"></i>
-              </button>
-              <input
-                id="password"
-                class="primary-input"
-                type="password"
-                placeholder="Create a strong password"
-                minlength="8"
-                maxlength="64"
-                required
-              />
+            <div>
+              <div class="forgot-pw">
+                <label for="confirmPassword">Confirm Password</label>
+              </div>
+              <div class="pw-warp">
+                <i class="bi bi-lock pw-icon"></i>
+                <button
+                  type="button"
+                  id="toggleConfirmPassword"
+                  class="toggle-btn"
+                >
+                  <i class="bi bi-eye"></i>
+                </button>
+                <input
+                  id="confirmPassword"
+                  class="primary-input"
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm your password"
+                  minlength="8"
+                  maxlength="64"
+                  required
+                  autocomplete="new-password"
+                />
+              </div>
+              <small class="error-message">Please confirm your password.</small>
             </div>
-          </div>
-          <div>
-            <div class="forgot-pw">
-              <label for="pw-warp">Confirm Password</label>
-            </div>
-            <div class="pw-warp">
-              <i class="bi bi-lock pw-icon"></i>
-              <button
-                type="button"
-                id="toggleConfirmPassword"
-                class="toggle-btn"
+            <label class="checkbox-row">
+              <div>
+                <input id="check" type="checkbox" name="terms" required />
+                <span>I agree to the </span>
+                <a href="#"> Terms of Service </a>
+                <span>and</span>
+                <a href="#"> Privacy Policy </a>
+              </div>
+              <small class="error-message"
+                >You must agree to the terms and conditions.</small
               >
-                <i class="bi bi-eye"></i>
-              </button>
-              <input
-                id="confirmPassword"
-                class="primary-input"
-                type="password"
-                placeholder="Confirm your password"
-                minlength="8"
-                maxlength="64"
-                required
-              />
+            </label>
+            <button type="submit" class="primary-btn">Create Account</button>
+            <div class="sign-up">
+              <span>Already have an account?</span>
+              <a href="login.html">Sign in</a>
             </div>
-          </div>
-          <label class="checkbox-row">
-            <input class="check" type="checkbox" />
-            <span>I agree to the </span>
-            <a href="#"> Terms of Service </a>
-            <span>and</span>
-            <a href="#"> Privacy Policy </a>
-          </label>
-          <button class="primary-btn">Create Account</button>
-          <div class="sign-up">
-            <span>Already have an account?</span>
-            <a href="login.html">Sign in</a>
-          </div>
-        </section>
+          </section>
+        </form>
       </div>
     </main>
   </body>
