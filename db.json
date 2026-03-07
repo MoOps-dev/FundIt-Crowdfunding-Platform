@@ -1,11 +1,16 @@
 {
   "users": [
-    
+    {
+      "id": "7bc6",
+      "firstName": "Mohamed",
+      "lastName": "Ibrahim",
+      "email": "mohamed.ibraham98@gmail.com",
+      "password": "np@se9du6xGUJPU",
+      "role": "user",
+      "isActive": true
+    }
   ],
-  "campaigns": [
-
-  ],
-  "pledges": {
-
-  }
+  "campaigns": [],
+  "pledges": [],
+  "$schema": "./node_modules/json-server/schema.json"
 }

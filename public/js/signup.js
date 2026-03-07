@@ -1,3 +1,5 @@
+import { showSuccess } from "./main.js";
+
 export function InitConfirmPasswordToggle() {
   const signupConfirmPasswordInput = document.getElementById("confirmPassword");
   const passwordToggleBtn = document.getElementById("toggleConfirmPassword");
@@ -25,9 +27,19 @@ export function InitSignUp() {
     document.querySelector(".checkbox-row").lastElementChild;
   const signupConfirmPasswordError =
     signupConfirmPasswordInput.closest("div").nextElementSibling;
+  const signupButton = document.getElementById("register");
+  const signupEmailInput = document.getElementById("email");
+  const signupEmailErrorMsg =
+    signupEmailInput.closest("div").nextElementSibling;
 
-  signupForm.addEventListener("submit", (e) => {
+  const valid = signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    let valid = true;
+
+    signupConfirmPasswordError.textContent = "Please confirm your password.";
+    signupEmailErrorMsg.textContent =
+      "Email is required and must be a valid email address (minimum 5 characters).";
 
     signupInputs.forEach((input) => {
       const error = input.closest("div").nextElementSibling;
@@ -35,6 +47,7 @@ export function InitSignUp() {
       if (!input.checkValidity()) {
         input.classList.add("invalid");
         error.style.display = "block";
+        valid = false;
       } else {
         input.classList.remove("invalid");
         error.style.display = "none";
@@ -44,6 +57,7 @@ export function InitSignUp() {
     if (!signupTermsCheckbox.checkValidity()) {
       signupTermsCheckbox.classList.add("invalid");
       signupTermsErrorMsg.style.display = "block";
+      valid = false;
     } else {
       signupTermsCheckbox.classList.remove("invalid");
       signupTermsErrorMsg.style.display = "none";
@@ -53,6 +67,65 @@ export function InitSignUp() {
       signupConfirmPasswordInput.classList.add("invalid");
       signupConfirmPasswordError.textContent = "Passwords do not match.";
       signupConfirmPasswordError.style.display = "block";
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    const originalSignupButtonText = signupButton.textContent;
+
+    signupButton.disabled = true;
+    signupButton.textContent = "Creating your account...";
+
+    const formData = new FormData(signupForm);
+
+    const newUser = {
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      role: "user",
+      isActive: true,
+    };
+
+    const exist = await checkUser(formData.get("email"));
+
+    if (!exist) {
+      await registerUser(newUser);
+      showSuccess("Account created successfully. Redirecting to login...");
+      setTimeout(() => {
+        window.location.href = "/login.html";
+      }, 2000);
+    } else {
+      signupEmailInput.classList.add("invalid");
+      signupEmailErrorMsg.textContent =
+        "An account with this email already exists.";
+      signupEmailErrorMsg.style.display = "block";
+
+      signupButton.disabled = false;
+      signupButton.textContent = originalSignupButtonText;
     }
   });
+}
+
+async function checkUser(email) {
+  const response = await fetch(`http://localhost:3000/users?email=${email}`);
+
+  const data = await response.json();
+  if (data.length > 0) return true;
+
+  return false;
+}
+
+async function registerUser(user) {
+  const response = await fetch("http://localhost:3000/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
+
+  const data = await response.json();
+  console.log("Saved user:", data);
 }

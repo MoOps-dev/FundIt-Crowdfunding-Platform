@@ -134,16 +134,23 @@ body {
   white-space: nowrap;
 }
 
+.primary-btn:hover {
+  cursor: pointer;
+}
+
+.primary-btn:disabled {
+  background-color: #444;
+  color: var(--accent);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .ml-8 {
   margin-left: 8px;
 }
 
 .mr-8 {
   margin-right: 8px;
-}
-
-.primary-btn:hover {
-  cursor: pointer;
 }
 
 .menu-btn {
@@ -337,7 +344,7 @@ body {
   border-radius: 2px;
 }
 
-.login-details {
+.login-details, .register-success {
   display: flex;
   flex-direction: column;
   background-color: var(--background);
@@ -347,6 +354,16 @@ body {
   border: 1px solid var(--border);
   gap: 10px;
   padding: 20px;
+}
+
+.login-details label {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.login-details .primary-btn {
+  height: 30px;
+  font-size: 12px;
 }
 
 .email-wrap {
@@ -385,11 +402,6 @@ body {
   font-size: 12px;
 }
 
-.login-details label {
-  font-size: 12px;
-  font-weight: 500;
-}
-
 .forgot-pw {
   display: flex;
   justify-content: space-between;
@@ -422,11 +434,6 @@ a {
 a {
   position: relative;
   top: -2px;
-}
-
-.login-details .primary-btn {
-  height: 30px;
-  font-size: 12px;
 }
 
 .sign-up {
@@ -518,6 +525,26 @@ a {
 
 .primary-input.invalid:not(:focus) {
   border: 1px solid var(--destructive);
+}
+
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #22c55e;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /******************************************* Media Query ************************************/
