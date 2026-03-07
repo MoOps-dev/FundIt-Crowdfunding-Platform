@@ -1,24 +1,28 @@
-import { InitPasswordToggle } from "./login.js";
-import { InitNavbar } from "./navbar.js";
-import { InitConfirmPasswordToggle, InitSignUp } from "./signup.js";
+import { initLogin, initPasswordToggle } from "./login.js";
+import { initConfirmPasswordToggle, initSignUp } from "./signup.js";
+import { initNavbar } from "./navbar.js";
 
-if (window.location.pathname === "/index.html") InitNavbar();
+if (window.location.pathname === "/index.html") {
+  initNavbar();
+  const currentRememberedUser = JSON.parse(localStorage.getItem("currentUser"));
+  const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
 
-if (window.location.pathname === "/login.html") InitPasswordToggle();
+  const user = currentRememberedUser || currentUser;
 
-if (window.location.pathname === "/signup.html") {
-  InitPasswordToggle();
-  InitConfirmPasswordToggle();
-  InitSignUp();
+  if (user) {
+    console.log("logged in:", user);
+  } else {
+    console.log("not logged in");
+  }
 }
 
-export function showSuccess(message) {
-  const toast = document.getElementById("toast");
+if (window.location.pathname === "/login.html") {
+  initPasswordToggle();
+  initLogin();
+}
 
-  toast.textContent = message;
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3000);
+if (window.location.pathname === "/signup.html") {
+  initPasswordToggle();
+  initConfirmPasswordToggle();
+  initSignUp();
 }

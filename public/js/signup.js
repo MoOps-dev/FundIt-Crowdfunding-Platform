@@ -1,6 +1,6 @@
-import { showSuccess } from "./main.js";
+import { showSuccess } from "./utils.js";
 
-export function InitConfirmPasswordToggle() {
+export function initConfirmPasswordToggle() {
   const signupConfirmPasswordInput = document.getElementById("confirmPassword");
   const passwordToggleBtn = document.getElementById("toggleConfirmPassword");
 
@@ -17,7 +17,7 @@ export function InitConfirmPasswordToggle() {
   });
 }
 
-export function InitSignUp() {
+export function initSignUp() {
   const signupForm = document.getElementById("signup-form");
   const signupPasswordInput = document.getElementById("password");
   const signupConfirmPasswordInput = document.getElementById("confirmPassword");
@@ -32,7 +32,7 @@ export function InitSignUp() {
   const signupEmailErrorMsg =
     signupEmailInput.closest("div").nextElementSibling;
 
-  const valid = signupForm.addEventListener("submit", async (e) => {
+  signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     let valid = true;
@@ -109,7 +109,9 @@ export function InitSignUp() {
 }
 
 async function checkUser(email) {
-  const response = await fetch(`http://localhost:3000/users?email=${email}`);
+  const response = await fetch(
+    `http://localhost:3000/users?email=${encodeURIComponent(email)}`,
+  );
 
   const data = await response.json();
   if (data.length > 0) return true;
@@ -125,7 +127,4 @@ async function registerUser(user) {
     },
     body: JSON.stringify(user),
   });
-
-  const data = await response.json();
-  console.log("Saved user:", data);
 }

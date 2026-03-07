@@ -1,4 +1,4 @@
-export function InitNavbar() {
+export function initNavbar() {
   const button = document.querySelector(".menu-btn");
   const menu = document.querySelector(".nav-links");
 

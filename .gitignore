@@ -44,3 +44,5 @@ yarn-debug.log*
 
 dist/
 coverage/
+
+todo.md
