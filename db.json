@@ -8,6 +8,15 @@
       "password": "np@se9du6xGUJPU",
       "role": "user",
       "isActive": true
+    },
+    {
+      "id": "c659",
+      "firstName": "Mohamed",
+      "lastName": "Ibrahim",
+      "email": "masterm2013310@gmail.com",
+      "password": "np@se9du6xGUJPU",
+      "role": "user",
+      "isActive": true
     }
   ],
   "campaigns": [],

@@ -1,6 +1,6 @@
-import { initLogin, initPasswordToggle } from "./login.js";
-import { initConfirmPasswordToggle, initSignUp } from "./signup.js";
+import { Register } from "./signup.js";
 import { initNavbar } from "./navbar.js";
+import { Login } from "./login.js";
 
 if (window.location.pathname === "/index.html") {
   initNavbar();
@@ -17,12 +17,11 @@ if (window.location.pathname === "/index.html") {
 }
 
 if (window.location.pathname === "/login.html") {
-  initPasswordToggle();
-  initLogin();
+  const loginPage = new Login();
+  loginPage.init();
 }
 
 if (window.location.pathname === "/signup.html") {
-  initPasswordToggle();
-  initConfirmPasswordToggle();
-  initSignUp();
+  const RegisterPage = new Register();
+  RegisterPage.init();
 }

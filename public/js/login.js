@@ -1,40 +1,74 @@
 import { showSuccess } from "./utils.js";
 
-export function initPasswordToggle() {
-  const loginPasswordInput = document.getElementById("password");
-  const passwordToggleBtn = document.getElementById("togglePassword");
+export class Login {
+  constructor() {
+    this.loginPasswordInput = document.getElementById("password");
+    this.passwordToggleBtn = document.getElementById("togglePassword");
 
-  passwordToggleBtn.addEventListener("click", () => {
-    const icon = passwordToggleBtn.querySelector("i");
+    this.loginForm = document.getElementById("login-form");
+    this.loginEmailInput = document.getElementById("email");
+    this.loginInputs = this.loginForm.querySelectorAll(".primary-input");
+    this.loginRememberMe = document.getElementById("check");
+    this.signinButton = document.getElementById("login");
+    this.loginIncorrectMsg =
+      document.querySelector(".checkbox-row").lastElementChild;
+    this.originalSigninButtonText = this.signinButton.textContent;
+  }
 
-    if (loginPasswordInput.type === "password") {
-      loginPasswordInput.type = "text";
-      icon.classList.replace("bi-eye", "bi-eye-slash");
-    } else {
-      loginPasswordInput.type = "password";
-      icon.classList.replace("bi-eye-slash", "bi-eye");
-    }
-  });
-}
+  init() {
+    this.#initPasswordToggle();
+    this.#initLogin();
+  }
 
-export function initLogin() {
-  const loginForm = document.getElementById("login-form");
-  const loginEmailInput = document.getElementById("email");
-  const loginPasswordInput = document.getElementById("password");
-  const loginInputs = loginForm.querySelectorAll(".primary-input");
-  const loginRememberMe = document.getElementById("check");
-  const signinButton = document.getElementById("login");
-  const loginIncorrectMsg =
-    document.querySelector(".checkbox-row").lastElementChild;
+  #initPasswordToggle() {
+    this.passwordToggleBtn.addEventListener("click", () => {
+      const icon = this.passwordToggleBtn.querySelector("i");
+      const isHidden = this.loginPasswordInput.type === "password";
 
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+      if (isHidden) {
+        this.loginPasswordInput.type = "text";
+        icon.classList.replace("bi-eye", "bi-eye-slash");
+      } else {
+        this.loginPasswordInput.type = "password";
+        icon.classList.replace("bi-eye-slash", "bi-eye");
+      }
+    });
+  }
 
+  #initLogin() {
+    this.loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      this.#hideIncorrectMsg();
+
+      if (!this.#validateInputs()) return;
+
+      this.#disableSignInBtn();
+
+      try {
+        const userAuth = await this.#auth();
+        const user = userAuth[0];
+
+        if (userAuth.length > 0) {
+          this.#login(user);
+        } else {
+          this.#notFound();
+        }
+      } catch (error) {
+        console.error(error);
+        this.#enableSignInBtn();
+      }
+    });
+  }
+
+  #hideIncorrectMsg() {
+    this.loginIncorrectMsg.style.display = "none";
+  }
+
+  #validateInputs() {
     let valid = true;
 
-    loginIncorrectMsg.style.display = "none";
-
-    loginInputs.forEach((input) => {
+    this.loginInputs.forEach((input) => {
       const error = input.closest("div").nextElementSibling;
 
       if (!input.checkValidity()) {
@@ -47,57 +81,69 @@ export function initLogin() {
       }
     });
 
-    if (!valid) return;
+    return valid;
+  }
 
-    const originalSigninButtonText = signinButton.textContent;
+  #disableSignInBtn() {
+    this.signinButton.disabled = true;
+    this.signinButton.textContent = "Signing you in...";
+  }
 
-    signinButton.disabled = true;
-    signinButton.textContent = "Signing you in...";
+  #enableSignInBtn() {
+    this.signinButton.disabled = false;
+    this.signinButton.textContent = this.originalSigninButtonText;
+  }
 
-    const formData = new FormData(loginForm);
+  async #auth() {
+    const formData = new FormData(this.loginForm);
 
-    const user = await checkUser(
+    const user = await this.#checkUser(
       formData.get("email"),
       formData.get("password"),
     );
 
-    if (user.length > 0) {
-      const loggedInUser = {
-        id: user[0].id,
-        firstName: user[0].firstName,
-        lastName: user[0].lastName,
-        email: user[0].email,
-        role: user[0].role,
-        isActive: user[0].isActive,
-      };
+    return user;
+  }
 
-      if (loginRememberMe.checked) {
-        localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
-      } else {
-        sessionStorage.setItem("currentUser", JSON.stringify(loggedInUser));
-      }
+  #login(user) {
+    const loggedInUser = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+      isActive: user.isActive,
+    };
 
-      showSuccess("Login successful. Redirecting to Home...");
-      setTimeout(() => {
-        window.location.href = "/index.html";
-      }, 2000);
+    if (this.loginRememberMe.checked) {
+      localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
     } else {
-      loginEmailInput.classList.add("invalid");
-      loginPasswordInput.classList.add("invalid");
-      loginIncorrectMsg.style.display = "block";
-
-      signinButton.disabled = false;
-      signinButton.textContent = originalSigninButtonText;
+      sessionStorage.setItem("currentUser", JSON.stringify(loggedInUser));
     }
-  });
-}
 
-async function checkUser(email, password) {
-  const response = await fetch(
-    `http://localhost:3000/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
-  );
+    showSuccess("Login successful. Redirecting to Home...");
+    setTimeout(() => {
+      window.location.href = "/index.html";
+    }, 2000);
+  }
 
-  const data = await response.json();
+  #notFound() {
+    this.loginEmailInput.classList.add("invalid");
+    this.loginPasswordInput.classList.add("invalid");
+    this.loginIncorrectMsg.style.display = "block";
 
-  return data;
+    this.#enableSignInBtn();
+  }
+
+  async #checkUser(email, password) {
+    const response = await fetch(
+      `/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
+    );
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    return await response.json();
+  }
 }

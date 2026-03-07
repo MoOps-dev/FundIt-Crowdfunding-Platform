@@ -1,47 +1,101 @@
 import { showSuccess } from "./utils.js";
 
-export function initConfirmPasswordToggle() {
-  const signupConfirmPasswordInput = document.getElementById("confirmPassword");
-  const passwordToggleBtn = document.getElementById("toggleConfirmPassword");
+export class Register {
+  constructor() {
+    this.signupConfirmPasswordInput =
+      document.getElementById("confirmPassword");
+    this.passwordToggleBtn = document.getElementById("togglePassword");
+    this.confirmPasswordToggleBtn = document.getElementById(
+      "toggleConfirmPassword",
+    );
 
-  passwordToggleBtn.addEventListener("click", () => {
-    const icon = passwordToggleBtn.querySelector("i");
+    this.signupForm = document.getElementById("signup-form");
+    this.signupPasswordInput = document.getElementById("password");
+    this.signupInputs = this.signupForm.querySelectorAll(".primary-input");
+    this.signupTermsCheckbox = document.getElementById("check");
+    this.signupTermsErrorMsg =
+      document.querySelector(".checkbox-row").lastElementChild;
+    this.signupConfirmPasswordError =
+      this.signupConfirmPasswordInput.closest("div").nextElementSibling;
+    this.signupButton = document.getElementById("register");
+    this.signupEmailInput = document.getElementById("email");
+    this.signupEmailErrorMsg =
+      this.signupEmailInput.closest("div").nextElementSibling;
+    this.originalSignupButtonText = this.signupButton.textContent;
+  }
 
-    if (signupConfirmPasswordInput.type === "password") {
-      signupConfirmPasswordInput.type = "text";
-      icon.classList.replace("bi-eye", "bi-eye-slash");
-    } else {
-      signupConfirmPasswordInput.type = "password";
-      icon.classList.replace("bi-eye-slash", "bi-eye");
-    }
-  });
-}
+  init() {
+    this.#initPasswordToggle();
+    this.#initConfirmPasswordToggle();
+    this.#initRegister();
+  }
 
-export function initSignUp() {
-  const signupForm = document.getElementById("signup-form");
-  const signupPasswordInput = document.getElementById("password");
-  const signupConfirmPasswordInput = document.getElementById("confirmPassword");
-  const signupInputs = signupForm.querySelectorAll(".primary-input");
-  const signupTermsCheckbox = document.getElementById("check");
-  const signupTermsErrorMsg =
-    document.querySelector(".checkbox-row").lastElementChild;
-  const signupConfirmPasswordError =
-    signupConfirmPasswordInput.closest("div").nextElementSibling;
-  const signupButton = document.getElementById("register");
-  const signupEmailInput = document.getElementById("email");
-  const signupEmailErrorMsg =
-    signupEmailInput.closest("div").nextElementSibling;
+  #initPasswordToggle() {
+    this.passwordToggleBtn.addEventListener("click", () => {
+      const icon = this.passwordToggleBtn.querySelector("i");
+      const isHidden = this.signupPasswordInput.type === "password";
 
-  signupForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+      if (isHidden) {
+        this.signupPasswordInput.type = "text";
+        icon.classList.replace("bi-eye", "bi-eye-slash");
+      } else {
+        this.signupPasswordInput.type = "password";
+        icon.classList.replace("bi-eye-slash", "bi-eye");
+      }
+    });
+  }
 
+  #initConfirmPasswordToggle() {
+    this.confirmPasswordToggleBtn.addEventListener("click", () => {
+      const icon = this.confirmPasswordToggleBtn.querySelector("i");
+
+      if (this.signupConfirmPasswordInput.type === "password") {
+        this.signupConfirmPasswordInput.type = "text";
+        icon.classList.replace("bi-eye", "bi-eye-slash");
+      } else {
+        this.signupConfirmPasswordInput.type = "password";
+        icon.classList.replace("bi-eye-slash", "bi-eye");
+      }
+    });
+  }
+
+  #initRegister() {
+    this.signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      this.#resetCustomErrorMessages();
+
+      if (!this.#validateInputs()) return;
+
+      this.#disableSignUpBtn();
+
+      try {
+        const newUser = await this.#createUser();
+
+        if (newUser) {
+          await this.#register(newUser);
+        } else {
+          this.#userExistsError();
+          this.#enableSignUpBtn();
+        }
+      } catch (error) {
+        console.error(error);
+        this.#enableSignUpBtn();
+      }
+    });
+  }
+
+  #resetCustomErrorMessages() {
+    this.signupConfirmPasswordError.textContent =
+      "Please confirm your password.";
+    this.signupEmailErrorMsg.textContent =
+      "Email is required and must be a valid email address (minimum 5 characters).";
+  }
+
+  #validateInputs() {
     let valid = true;
 
-    signupConfirmPasswordError.textContent = "Please confirm your password.";
-    signupEmailErrorMsg.textContent =
-      "Email is required and must be a valid email address (minimum 5 characters).";
-
-    signupInputs.forEach((input) => {
+    this.signupInputs.forEach((input) => {
       const error = input.closest("div").nextElementSibling;
 
       if (!input.checkValidity()) {
@@ -54,30 +108,49 @@ export function initSignUp() {
       }
     });
 
-    if (!signupTermsCheckbox.checkValidity()) {
-      signupTermsCheckbox.classList.add("invalid");
-      signupTermsErrorMsg.style.display = "block";
+    if (!this.signupTermsCheckbox.checkValidity()) {
+      this.signupTermsCheckbox.classList.add("invalid");
+      this.signupTermsErrorMsg.style.display = "block";
       valid = false;
     } else {
-      signupTermsCheckbox.classList.remove("invalid");
-      signupTermsErrorMsg.style.display = "none";
+      this.signupTermsCheckbox.classList.remove("invalid");
+      this.signupTermsErrorMsg.style.display = "none";
     }
 
-    if (signupPasswordInput.value !== signupConfirmPasswordInput.value) {
-      signupConfirmPasswordInput.classList.add("invalid");
-      signupConfirmPasswordError.textContent = "Passwords do not match.";
-      signupConfirmPasswordError.style.display = "block";
+    if (
+      this.signupPasswordInput.value !== this.signupConfirmPasswordInput.value
+    ) {
+      this.signupConfirmPasswordInput.classList.add("invalid");
+      this.signupConfirmPasswordError.textContent = "Passwords do not match.";
+      this.signupConfirmPasswordError.style.display = "block";
       valid = false;
+    } else if (this.signupConfirmPasswordInput.checkValidity()) {
+      this.signupConfirmPasswordInput.classList.remove("invalid");
+      this.signupConfirmPasswordError.style.display = "none";
     }
 
-    if (!valid) return;
+    return valid;
+  }
 
-    const originalSignupButtonText = signupButton.textContent;
+  #disableSignUpBtn() {
+    this.signupButton.disabled = true;
+    this.signupButton.textContent = "Creating your account...";
+  }
 
-    signupButton.disabled = true;
-    signupButton.textContent = "Creating your account...";
+  #enableSignUpBtn() {
+    this.signupButton.disabled = false;
+    this.signupButton.textContent = this.originalSignupButtonText;
+  }
 
-    const formData = new FormData(signupForm);
+  #userExistsError() {
+    this.signupEmailInput.classList.add("invalid");
+    this.signupEmailErrorMsg.textContent =
+      "An account with this email already exists.";
+    this.signupEmailErrorMsg.style.display = "block";
+  }
+
+  async #createUser() {
+    const formData = new FormData(this.signupForm);
 
     const newUser = {
       firstName: formData.get("firstName"),
@@ -88,43 +161,46 @@ export function initSignUp() {
       isActive: true,
     };
 
-    const exist = await checkUser(formData.get("email"));
+    const exist = await this.#checkUser(formData.get("email"));
 
-    if (!exist) {
-      await registerUser(newUser);
+    if (exist.length > 0) return null;
+
+    return newUser;
+  }
+
+  async #checkUser(email) {
+    const response = await fetch(`/users?email=${encodeURIComponent(email)}`);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    return response.json();
+  }
+
+  async #register(newUser) {
+    const success = await this.#registerUser(newUser);
+    if (success) {
       showSuccess("Account created successfully. Redirecting to login...");
       setTimeout(() => {
         window.location.href = "/login.html";
       }, 2000);
-    } else {
-      signupEmailInput.classList.add("invalid");
-      signupEmailErrorMsg.textContent =
-        "An account with this email already exists.";
-      signupEmailErrorMsg.style.display = "block";
-
-      signupButton.disabled = false;
-      signupButton.textContent = originalSignupButtonText;
     }
-  });
-}
+  }
 
-async function checkUser(email) {
-  const response = await fetch(
-    `http://localhost:3000/users?email=${encodeURIComponent(email)}`,
-  );
+  async #registerUser(user) {
+    const response = await fetch("/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
 
-  const data = await response.json();
-  if (data.length > 0) return true;
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
 
-  return false;
-}
-
-async function registerUser(user) {
-  const response = await fetch("http://localhost:3000/users", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  });
+    return true;
+  }
 }
