@@ -1,27 +1,29 @@
 import { Register } from "./signup.js";
-import { initNavbar } from "./navbar.js";
+import { Index } from "./index.js";
 import { Login } from "./login.js";
+import { getCurrentUser, getCurrentUserData, preventAuth } from "./auth.js";
 
-if (window.location.pathname === "/index.html") {
-  initNavbar();
-  const currentRememberedUser = JSON.parse(localStorage.getItem("currentUser"));
-  const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+const path = window.location.pathname;
 
-  const user = currentRememberedUser || currentUser;
+if (getCurrentUserData) {
+  getCurrentUser();
+}
 
-  if (user) {
-    console.log("logged in:", user);
-  } else {
-    console.log("not logged in");
+if (path === "/index.html" || path === "/") {
+  const mainPage = new Index();
+  mainPage.init();
+}
+
+if (path === "/login.html") {
+  if (!preventAuth()) {
+    const loginPage = new Login();
+    loginPage.init();
   }
 }
 
-if (window.location.pathname === "/login.html") {
-  const loginPage = new Login();
-  loginPage.init();
-}
-
-if (window.location.pathname === "/signup.html") {
-  const RegisterPage = new Register();
-  RegisterPage.init();
+if (path === "/signup.html") {
+  if (!preventAuth()) {
+    const RegisterPage = new Register();
+    RegisterPage.init();
+  }
 }

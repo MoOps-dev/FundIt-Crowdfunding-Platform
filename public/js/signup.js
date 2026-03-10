@@ -1,7 +1,10 @@
+import { isLoggedIn } from "./auth.js";
 import { showSuccess } from "./utils.js";
 
 export class Register {
   constructor() {
+    this.mainScreen = document.getElementById("signup-main");
+    this.loadingScreen = document.getElementById("loading");
     this.signupConfirmPasswordInput =
       document.getElementById("confirmPassword");
     this.passwordToggleBtn = document.getElementById("togglePassword");
@@ -25,9 +28,11 @@ export class Register {
   }
 
   init() {
-    this.#initPasswordToggle();
-    this.#initConfirmPasswordToggle();
-    this.#initRegister();
+    if (!isLoggedIn()) {
+      this.#initPasswordToggle();
+      this.#initConfirmPasswordToggle();
+      this.#initRegister();
+    }
   }
 
   #initPasswordToggle() {
@@ -83,6 +88,9 @@ export class Register {
         this.#enableSignUpBtn();
       }
     });
+
+    this.loadingScreen.style.display = "none";
+    this.mainScreen.style.display = "flex";
   }
 
   #resetCustomErrorMessages() {

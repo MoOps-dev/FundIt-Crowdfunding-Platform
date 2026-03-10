@@ -1,7 +1,10 @@
+import { isLoggedIn } from "./auth.js";
 import { showSuccess } from "./utils.js";
 
 export class Login {
   constructor() {
+    this.mainScreen = document.getElementById("login-main");
+    this.loadingScreen = document.getElementById("loading");
     this.loginPasswordInput = document.getElementById("password");
     this.passwordToggleBtn = document.getElementById("togglePassword");
 
@@ -16,8 +19,10 @@ export class Login {
   }
 
   init() {
-    this.#initPasswordToggle();
-    this.#initLogin();
+    if (!isLoggedIn()) {
+      this.#initPasswordToggle();
+      this.#initLogin();
+    }
   }
 
   #initPasswordToggle() {
@@ -59,6 +64,9 @@ export class Login {
         this.#enableSignInBtn();
       }
     });
+
+    this.loadingScreen.style.display = "none";
+    this.mainScreen.style.display = "flex";
   }
 
   #hideIncorrectMsg() {
