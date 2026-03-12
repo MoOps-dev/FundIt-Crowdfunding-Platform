@@ -1,0 +1,277 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--background);
+  border-bottom: 1px solid lightgray;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  justify-content: space-between;
+  margin: 0px 15rem;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.nav span {
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.nav .primary-input {
+  width: 20rem;
+}
+
+.sub-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0px 15rem;
+}
+
+.footer {
+  background-color: var(--background);
+  width: 100%;
+  height: 85px;
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.step-list {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: 85px;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+  z-index: 900;
+  margin: 0 auto;
+}
+
+.auth {
+  display: none;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  list-style: none;
+  margin: 0px 10px;
+}
+
+.categories {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.categories input {
+  display: none;
+}
+
+.categories label {
+  border: 0.1px solid var(--foreground-light);
+  border-radius: 5px;
+  padding: 2px 5px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 500ms;
+}
+
+.categories label:hover {
+  background-color: var(--primary);
+  color: var(--background);
+}
+
+.categories input:checked + label:hover {
+  background-color: var(--primary) !important;
+  color: var(--background);
+}
+
+.categories input:checked + label {
+  border: none;
+  background-color: var(--primary);
+  color: var(--background);
+} 
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-main {
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  background-color: var(--color-gray-50);
+  padding-top: 40px;
+}
+
+.back-home,
+.login-page {
+  width: min(800px, 100%);
+  margin: 0 auto;
+}
+
+.back-home {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: clamp(20px, 6vw, 80px);
+}
+
+.back-home h2 {
+  margin: 0 10px;
+}
+
+.forgot-pw {
+  display: flex;
+  justify-content: space-between;
+}
+
+.register-name {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.welcome-content .stats {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.welcome-content .stat {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+
+.welcome-content .stat__value {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.welcome-content .stat__label {
+  color: var(--foreground);
+  font-size: 12px;
+}
+
+.user-info {
+  display: none;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  border-radius: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+.user-menu:hover {
+  cursor: pointer;
+}
+
+.profile-header:hover {
+  cursor: auto;
+}
+
+.user-menu span {
+  color: var(--background);
+  font-size: 14px;
+}
+
+.step-section {
+  display: block;
+}
+
+.start-campaign {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.step-list-inner {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0 20px;
+  gap: 10px;
+}
+
+.step {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.step-number {
+  display: flex;
+  border-radius: 20px;
+  width: 35px;
+  height: 35px;
+  background-color: var(--secondary);
+  align-items: center;
+  justify-content: center;
+}
+
+.step-section {
+  display: flex;
+  flex-direction: column;
+  max-width: 768px;
+  margin: 0 auto;
+  gap: 10px;
+}
+
+.mid-section {
+  flex: 1;
+  background-color: var(--color-gray-50);
+  width: 100%;
+  padding: 185px 20px 120px;
+  padding-top: 185px;
+  padding-bottom: 120px;
+}
+
+.bottom-section .secondary-btn {
+  border: 1px solid var(--border);
+}
+
+.bottom-section span {
+  color: var(--foreground);
+  font-size: 14px;
+}

@@ -1,0 +1,158 @@
+.hidden {
+  display: none;
+}
+
+@media (max-width: 1600px) {
+  .hero-img img {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .nav {
+    margin: 0px 10rem;
+    margin-top: 20px;
+  }
+
+  .sub-header {
+    margin: 0px 10rem;
+  }
+
+  .hero-section {
+    margin: 0 10rem;
+  }
+
+  .hero-img img {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+@media (max-width: 1248px) {
+  .nav {
+    margin: 0px 5rem;
+    margin-top: 20px;
+  }
+
+  .sub-header {
+    margin: 0px 5rem;
+  }
+
+  .hero-section {
+    margin: 0 5rem;
+  }
+
+  .hero-img img {
+    width: 450px;
+    height: 450px;
+  }
+}
+
+@media (max-width: 1140px) {
+  .hero-section {
+    flex-direction: column;
+  }
+
+  .hero-info {
+    width: 80vw;
+  }
+
+  .hero-info h1 {
+    font-size: 38px;
+  }
+
+  .hero-img img {
+    width: 85vw;
+    height: 640px;
+  }
+}
+
+@media (max-width: 1088px) {
+  .search-wrap {
+    display: none;
+  }
+
+  .login-welcome {
+    display: none;
+  }
+
+  .back-home,
+  .login-page {
+    width: min(400px, 90%);
+    margin: 0 auto;
+  }
+
+  .back-home {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-btn {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 5rem;
+    left: 0;
+    right: 0;
+    background: var(--background);
+    width: 100%;
+    height: 100%;
+    border-top: 1px solid var(--foreground--semilight);
+    padding-top: 1px;
+    margin: 0;
+  }
+
+  .nav-links button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav {
+    margin: 0px 2rem;
+    margin-top: 20px;
+  }
+
+  .sub-header {
+    margin: 0px 2rem;
+  }
+
+  .hero-img img {
+    width: 85vw;
+    height: 440px;
+  }
+
+  .step-info {
+    display: none;
+  }
+
+  .step hr {
+    margin: 0 10px;
+    width: 10vw;
+  }
+
+  .step-list-inner {
+    gap: 0;
+  }
+
+  .category-location {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .login-details {
+    max-width: none;
+  }
+}

@@ -1,7 +1,8 @@
 import { Register } from "./signup.js";
 import { Index } from "./index.js";
 import { Login } from "./login.js";
-import { getCurrentUser, getCurrentUserData, preventAuth } from "./auth.js";
+import { getCurrentUser, getCurrentUserData, preventAuth, requireAuth } from "./auth.js";
+import { NewCampaign } from "./new_camp.js";
 
 const path = window.location.pathname;
 
@@ -26,4 +27,10 @@ if (path === "/signup.html") {
     const RegisterPage = new Register();
     RegisterPage.init();
   }
+}
+
+if (path === "/new-campaign.html") {
+  if (!requireAuth()) {
+    const NewCampaignPage = new NewCampaign();
+    NewCampaignPage.init();}
 }

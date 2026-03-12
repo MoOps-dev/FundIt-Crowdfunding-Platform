@@ -1,0 +1,384 @@
+.search-wrap, .email-wrap, .pw-warp {
+  position: relative;
+}
+
+.primary-input {
+  padding: 12px 34px 12px 42px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  height: 30px;
+  outline: none;
+  background-color: var(--input-background);
+  width: 100%;
+  transition: 500ms;
+}
+
+.primary-input:focus {
+  stroke: none;
+  border: 1px solid var(--border);
+  box-shadow:
+    rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 45%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.secondary-btn {
+  background-color: transparent;
+  border: none;
+  height: 35px;
+  padding: 0px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: 500ms;
+  justify-content: center;
+}
+
+.secondary-btn:hover {
+  background-color: var(--secondary);
+  cursor: pointer;
+}
+
+.secondary-btn:disabled {
+  color: var(--foreground);
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.primary-btn {
+  background-color: var(--primary);
+  border: none;
+  height: 35px;
+  padding: 0px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--background);
+  white-space: nowrap;
+}
+
+.primary-btn:hover {
+  cursor: pointer;
+}
+
+.primary-btn:disabled {
+  background-color: #444;
+  color: var(--accent);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.ml-8 {
+  margin-left: 8px;
+}
+
+.mr-8 {
+  margin-right: 8px;
+}
+
+.menu-btn {
+  display: none;
+}
+
+.login-secondary-btn {
+  font-weight: 400;
+}
+
+.email-icon {
+  position: absolute;
+  left: 14px;
+  top: 60%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.email-wrap .primary-input {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.pw-icon {
+  position: absolute;
+  left: 14px;
+  top: 60%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.pw-warp .primary-input {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.forgot-pw,
+a {
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.forgot-pw a:hover {
+  text-decoration: underline;
+}
+
+.sign-in h5 {
+  font-weight: 400;
+  color: var(--foreground);
+  margin-top: 5px;
+}
+
+.checkbox-row {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+}
+
+.checkbox-row span,
+a {
+  position: relative;
+  top: -2px;
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 10px;
+  top: 60%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #777;
+  padding: 1px 3px;
+  border-radius: 5px;
+}
+
+.toggle-btn:hover {
+  background-color: var(--border);
+}
+
+.error-message {
+  color: var(--destructive);
+  font-size: 10px;
+  font-weight: 500;
+  margin-top: 8px;
+  display: none;
+}
+
+.primary-input.invalid:not(:focus) {
+  border: 1px solid var(--destructive);
+}
+
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #22c55e;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-icons {
+  padding: 5px 8px;
+  transition: 0.5s;
+}
+
+.nav-icons:hover {
+  background-color: var(--secondary);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.profile-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 225px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  z-index: 1000;
+  transition: 0.5s;
+}
+
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.menu-list li a,
+.menu-footer a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 12px;
+  transition: 0.5s;
+}
+
+.menu-list i,
+.menu-footer i {
+  font-size: 18px;
+}
+
+.menu-list li a:hover,
+.menu-footer a:hover {
+  background: var(--secondary);
+}
+
+.menu-footer {
+  border-top: 1px solid var(--border);
+  padding: 4px 0;
+}
+
+.profile-menu.open {
+  animation: dropdown 0.22s ease;
+}
+
+@keyframes dropdown {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+  }
+  70% {
+    transform: translateY(2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.step-number span {
+  color: var(--foreground);
+}
+
+.step-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-info .title {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.step-info .desc {
+  font-size: 11px;
+  color: var(--foreground);
+}
+
+.step hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  width: 80px;
+}
+
+.step.selected .step-number {
+  background-color: var(--primary);
+}
+
+.step.selected .step-number span {
+  color: var(--background);
+}
+
+.step.selected + .step hr {
+  border-color: var(--primary);
+}
+
+.image-picker {
+  width: 100%;
+  height: 180px;
+  border: 3px dashed var(--border);
+  border-radius: 10px;
+  box-sizing: border-box; /* Includes the 3px border in the 180px height */
+  overflow: hidden;
+  position: relative;
+}
+
+.image-picker.invalid {
+  border: 1px solid var(--destructive);
+}
+
+.picker-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+}
+
+.picker-area .secondary-btn {
+  border: 1px solid var(--border);
+  width: 140px;
+}
+
+.picker-area i {
+  font-size: 28px;
+  color: var(--foreground);
+}
+
+.picker-area span {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--foreground);
+}
+
+#preview-container img {
+  display: none;
+  width: 100%;
+  height: 180px;
+  object-fit:cover;
+}
+
+.remove-btn {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: auto;
+  height: 30px;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0 10px;
+}

@@ -1,0 +1,17 @@
+body {
+  --primary: #030213;
+  --background: #ffffff;
+  --foreground-text: oklch(0.145 0 0);
+  --secondary: oklch(0.95 0.0058 264.53);
+  --muted: #ececf0;
+  --foreground: #717182;
+  --foreground-light: #71718240;
+  --foreground--semilight: #71718260;
+  --accent: #e9ebef;
+  --color-indigo-100: oklch(93.191% 0.03248 270.463);
+  --destructive: #d4183d;
+  --border: rgba(0, 0, 0, 0.1);
+  --input-background: #f3f3f5;
+  --switch-background: #cbced4;
+  --color-gray-50: oklch(0.985 0.002 247.839);
+}

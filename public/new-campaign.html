@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <script type="module" src="./js/main.js"></script>
+    <title>Start a campaign - FundIt</title>
+  </head>
+  <body>
+    <div id="start-campaign" class="start-campaign hidden">
+      <div class="top-section">
+        <header class="header">
+          <div class="back-home-camp">
+            <button
+              class="secondary-btn login-secondary-btn"
+              onclick="window.location.href = 'index.html'"
+            >
+              <i class="bi bi-arrow-left mr-8"></i>
+              Back to Home
+            </button>
+            <h4>Start a new campaign</h4>
+          </div>
+        </header>
+        <section class="step-list">
+          <div class="step-list-inner">
+            <div class="step" id="step-one">
+              <div class="step-number">
+                <span>1</span>
+              </div>
+              <div class="step-info">
+                <span class="title">Campaign Basics</span>
+                <span class="desc">Tell us more about your campaign </span>
+              </div>
+            </div>
+            <div class="step" id="step-two">
+              <hr />
+              <div class="step-number">
+                <span>2</span>
+              </div>
+              <div class="step-info">
+                <span class="title">Funding & Timeline</span>
+                <span class="desc">
+                  Funding & Timeline Set your goal and timeline</span
+                >
+              </div>
+            </div>
+            <div class="step" id="step-three">
+              <hr />
+              <div class="step-number">
+                <span>3</span>
+              </div>
+              <div class="step-info">
+                <span class="title">Story & Media</span>
+                <span class="desc">Share your project's story</span>
+              </div>
+            </div>
+            <div class="step" id="step-four">
+              <hr />
+              <div class="step-number">
+                <span>4</span>
+              </div>
+              <div class="step-info">
+                <span class="title">Review & Launch</span>
+                <span class="desc">Review and publish your project</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <form class="mid-section" id="new-camp-form" novalidate>
+        <div class="step-section hidden" id="step-one-section">
+          <div>
+            <label for="title">Campaign Title *</label>
+            <div class="email-wrap">
+              <input
+                id="title"
+                class="primary-input"
+                type="text"
+                name="title"
+                placeholder="Give your campaign a compelling title"
+                minlength="10"
+                maxlength="80"
+                required
+                autocomplete="off"
+              />
+            </div>
+            <small class="error-message"
+              >Please enter a campaign title between 10 and 80
+              characters.</small
+            >
+          </div>
+          <div>
+            <label for="shortdesc">Short Description *</label>
+            <div class="email-wrap">
+              <input
+                id="shortdesc"
+                class="primary-input"
+                type="text"
+                name="shortdesc"
+                placeholder="Briefly describe what you're creating"
+                minlength="20"
+                maxlength="120"
+                required
+                autocomplete="off"
+              />
+            </div>
+            <small class="error-message"
+              >Write a short summary between 20 and 120 characters.</small
+            >
+          </div>
+          <div class="category-location">
+            <div>
+              <label for="location">Category *</label>
+              <div class="custom-select" id="categorySelect">
+                <button
+                  type="button"
+                  class="custom-select-trigger"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                >
+                  <span
+                    class="custom-select-value"
+                    data-placeholder="Choose a category"
+                    >Choose a category</span
+                  >
+                  <i class="bi bi-chevron-down custom-select-arrow"></i>
+                </button>
+
+                <ul class="custom-select-menu hidden" role="listbox">
+                  <li
+                    class="custom-select-option"
+                    data-value="technology"
+                    role="option"
+                    tabindex="0"
+                  >
+                    Technology
+                  </li>
+                  <li
+                    class="custom-select-option"
+                    data-value="art"
+                    role="option"
+                    tabindex="0"
+                  >
+                    Art
+                  </li>
+                  <li
+                    class="custom-select-option"
+                    data-value="games"
+                    role="option"
+                    tabindex="0"
+                  >
+                    Games
+                  </li>
+                  <li
+                    class="custom-select-option"
+                    data-value="design"
+                    role="option"
+                    tabindex="0"
+                  >
+                    Design
+                  </li>
+                  <li
+                    class="custom-select-option"
+                    data-value="food"
+                    role="option"
+                    tabindex="0"
+                  >
+                    Food
+                  </li>
+                  <li
+                    class="custom-select-option"
+                    data-value="fashion"
+                    role="option"
+                    tabindex="0"
+                  >
+                    Fashion
+                  </li>
+                  <li
+                    class="custom-select-option"
+                    data-value="music"
+                    role="option"
+                    tabindex="0"
+                  >
+                    Music
+                  </li>
+                  <li
+                    class="custom-select-option"
+                    data-value="film"
+                    role="option"
+                    tabindex="0"
+                  >
+                    Film
+                  </li>
+                </ul>
+
+                <input type="hidden" name="category" id="category" />
+              </div>
+              <small class="error-message"
+                >Please choose a category for your campaign.</small
+              >
+            </div>
+            <div>
+              <label for="location">Location *</label>
+              <div class="email-wrap">
+                <i class="bi bi-geo-alt email-icon"></i>
+                <input
+                  id="location"
+                  class="primary-input"
+                  type="text"
+                  name="location"
+                  placeholder="Where are you based?"
+                  minlength="2"
+                  maxlength="60"
+                  required
+                  autocomplete="country-name"
+                />
+              </div>
+              <small class="error-message"
+                >Enter the region where your campaign is based.</small
+              >
+            </div>
+          </div>
+          <div>
+            <label for="desc">Campaign Description *</label>
+            <div class="email-wrap">
+              <textarea
+                id="desc"
+                class="primary-input textarea description"
+                name="description"
+                placeholder="Describe your project in detail"
+                minlength="120"
+                maxlength="3000"
+                required
+                autocomplete="off"
+              ></textarea>
+            </div>
+            <small class="error-message"
+              >Please describe your campaign in at least 150 characters. (Max
+              3000 characters)</small
+            >
+          </div>
+        </div>
+        <div class="step-section hidden" id="step-two-section">
+          <div class="category-location">
+            <section class="login-details">
+              <div class="sign-in">
+                <h4>Funding Goal</h4>
+                <h5>
+                  Set a realistic goal that covers your project costs plus fees.
+                </h5>
+              </div>
+              <div>
+                <label for="amount">Goal Amount (USD) *</label>
+                <div class="email-wrap">
+                  <i class="bi bi-currency-dollar email-icon"></i>
+                  <input
+                    id="amount"
+                    class="primary-input"
+                    type="number"
+                    name="amount"
+                    placeholder="50000"
+                    min="1000"
+                    max="1000000"
+                    step="1000"
+                    required
+                    autocomplete="off"
+                  />
+                </div>
+                <small class="error-message"
+                  >Enter a funding goal between $1,000 and $1,000,000.</small
+                >
+              </div>
+            </section>
+            <section class="login-details">
+              <div class="sign-in">
+                <h4>Campaign Duration</h4>
+                <h5>
+                  Shorter campaigns create urgency but need more marketing.
+                </h5>
+              </div>
+              <div>
+                <label for="days">Days to Raise Funds *</label>
+                <div class="email-wrap">
+                  <i class="bi bi-calendar3 email-icon"></i>
+                  <input
+                    id="days"
+                    class="primary-input"
+                    type="number"
+                    name="days"
+                    placeholder="30"
+                    min="7"
+                    max="60"
+                    step="1"
+                    required
+                    autocomplete="off"
+                  />
+                </div>
+                <small class="error-message"
+                  >Enter a campaign duration between 7 and 60 days.</small
+                >
+              </div>
+            </section>
+          </div>
+          <div class="funding-tips">
+            <div class="funding-tips-header">
+              <span class="tip-icon">💡</span>
+              <span class="tip-title">Funding Tips</span>
+            </div>
+
+            <ul class="funding-tips-list">
+              <li>
+                Include all costs: production, shipping, platform fees (~8%)
+              </li>
+              <li>Research similar successful projects for realistic goals</li>
+              <li>Consider offering early bird rewards to build momentum</li>
+              <li>30-day campaigns tend to perform best</li>
+            </ul>
+          </div>
+        </div>
+        <div class="step-section hidden" id="step-three-section">
+          <div>
+            <label for="story">Campaign Story *</label>
+            <div class="email-wrap">
+              <textarea
+                id="story"
+                class="primary-input description textarea"
+                name="story"
+                placeholder="Tell the full story of your campaign. What inspired you? How will you use the fund? Why should people support you?"
+                minlength="120"
+                maxlength="3000"
+                required
+                autocomplete="off"
+              ></textarea>
+            </div>
+            <small class="error-message"
+              >Please tell your campaign story in at least 150 characters. (Max
+              3000 characters)</small
+            >
+          </div>
+          <div class="category-location">
+            <section class="login-details">
+              <div class="sign-in">
+                <h4>Campaign Image</h4>
+                <h5>This will be the main banner of your campaign.</h5>
+              </div>
+              <div id="picker-section" class="image-picker">
+                <div id="preview-container">
+                  <img id="imagePreview" src="" alt="Preview" />
+                </div>
+                <button type="button" class="remove-btn" id="removeImage">
+                  Remove
+                </button>
+                <div id="picker-area" class="picker-area">
+                  <i class="bi bi-upload"></i>
+                  <input
+                    type="file"
+                    id="imagePicker"
+                    accept=".jpg, .jpeg, .png"
+                    style="display: none"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="secondary-btn login-secondary-btn"
+                    id="picker-btn"
+                  >
+                    Upload Image
+                  </button>
+                  <span>PNG, JPG up to 10MB</span>
+                </div>
+              </div>
+              <small class="error-message"
+                >Campaign image is required. (PNG, JPG up to 10MB)
+              </small>
+            </section>
+            <section class="login-details">
+              <div class="sign-in">
+                <h4>Project Video (Optional)</h4>
+                <h5>
+                  Projects with videos raise 105% more than those without.
+                </h5>
+              </div>
+              <div>
+                <label for="video">Video URL</label>
+                <div class="email-wrap">
+                  <i class="bi bi-youtube email-icon"></i>
+                  <input
+                    id="video"
+                    class="primary-input"
+                    type="url"
+                    name="video"
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    minlength="12"
+                    maxlength="48"
+                    autocomplete="off"
+                  />
+                </div>
+                <small class="error-message"></small>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="step-section hidden" id="step-four-section">
+
+        </div>
+      </form>
+      <div class="bottom-section">
+        <footer class="footer">
+          <button
+            class="secondary-btn login-secondary-btn"
+            id="prevBtn"
+            disabled
+          >
+            <i class="bi bi-arrow-left mr-8"></i>
+            Previous
+          </button>
+          <span id="step-text">Step 1 of 5</span>
+          <button id="next-step" type="submit" form="new-camp-form" class="primary-btn">
+            Next
+            <i class="bi bi-arrow-right ml-8"></i>
+          </button>
+          <button id="launch-campaign" class="primary-btn hidden">
+            Launch Campaign
+          </button>
+        </footer>
+      </div>
+    </div>
+    <main id="loading" class="loading">
+      <h1>FundIt</h1>
+    </main>
+  </body>
+</html>
