@@ -147,12 +147,39 @@
     gap: 0;
   }
 
-  .category-location {
+  #step-two-section .category-location,
+  #step-three-section .category-location {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .login-details {
     max-width: none;
+  }
+
+  .campaign-header {
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  .overview-top {
+    flex-direction: column;
+    width: auto;
+  }
+
+  .overview-top div:first-child,
+  .overview-top div:last-child {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  .overview-top img {
+    height: 200px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .overview-top span {
+    border-radius: 0 0 10px 10px;
   }
 }

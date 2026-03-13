@@ -91,13 +91,13 @@
                 name="title"
                 placeholder="Give your campaign a compelling title"
                 minlength="10"
-                maxlength="80"
+                maxlength="36"
                 required
                 autocomplete="off"
               />
             </div>
             <small class="error-message"
-              >Please enter a campaign title between 10 and 80
+              >Please enter a campaign title between 10 and 36
               characters.</small
             >
           </div>
@@ -233,12 +233,12 @@
             </div>
           </div>
           <div>
-            <label for="desc">Campaign Description *</label>
+            <label for="longdesc">Campaign Description *</label>
             <div class="email-wrap">
               <textarea
-                id="desc"
+                id="longdesc"
                 class="primary-input textarea description"
-                name="description"
+                name="longdesc"
                 placeholder="Describe your project in detail"
                 minlength="120"
                 maxlength="3000"
@@ -273,7 +273,7 @@
                     placeholder="50000"
                     min="1000"
                     max="1000000"
-                    step="1000"
+                    step="1"
                     required
                     autocomplete="off"
                   />
@@ -403,7 +403,7 @@
                     name="video"
                     placeholder="https://www.youtube.com/watch?v=..."
                     minlength="12"
-                    maxlength="48"
+                    maxlength="120"
                     autocomplete="off"
                   />
                 </div>
@@ -413,7 +413,60 @@
           </div>
         </div>
         <div class="step-section hidden" id="step-four-section">
+          <section class="campaign-overview">
+            <header class="campaign-header">
+              <div class="name-cat">
+                <h4 id="campaign-title-overview"></h4>
+                <div class="cat-text">
+                  <span id="overview-cat"></span>
+                </div>
+              </div>
+              <div class="amount-duration">
+                <span id="overview-amount" class="amount"></span>
+                <span>&bull;</span>
+                <span id="overview-days" class="days"></span>
+                <span>&bull;</span>
+                <span class="location-text"
+                  ><i class="bi bi-geo-alt-fill"> </i>
+                  <span id="overview-location"></span>
+                </span>
+              </div>
+            </header>
+            <section class="camp-details-overview">
+              <div class="overview-top">
+                <div class="image-container">
+                  <img id="overview-img" src="" alt="campaign image overview" />
+                  <button id="over-video" type="button" class="remove-btn">
+                    <i class="bi bi-youtube"></i>
+                    Watch Video
+                  </button>
+                </div>
 
+                <div><span id="overview-sdesc"></span></div>
+              </div>
+              <div class="tab-switcher">
+                <input
+                  type="radio"
+                  name="view"
+                  id="cabout"
+                  value="cabout"
+                  checked
+                />
+                <label for="cabout">About this Campaign</label>
+
+                <input type="radio" name="view" id="cstory" value="cstory" />
+                <label for="cstory">Story</label>
+              </div>
+              <div class="long-cabout hidden">
+                <h4>About this Campaign</h4>
+                <p id="overview-ldesc"></p>
+              </div>
+              <div class="long-cstory hidden">
+                <h4>Campaign Story</h4>
+                <p id="overview-lstory"></p>
+              </div>
+            </section>
+          </section>
         </div>
       </form>
       <div class="bottom-section">
@@ -427,7 +480,12 @@
             Previous
           </button>
           <span id="step-text">Step 1 of 5</span>
-          <button id="next-step" type="submit" form="new-camp-form" class="primary-btn">
+          <button
+            id="next-step"
+            type="submit"
+            form="new-camp-form"
+            class="primary-btn"
+          >
             Next
             <i class="bi bi-arrow-right ml-8"></i>
           </button>

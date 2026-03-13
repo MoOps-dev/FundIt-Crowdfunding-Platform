@@ -44,6 +44,20 @@ export class NewCampaign {
 
     this.nextStepBtn = document.getElementById("next-step");
     this.launchBtn = document.getElementById("launch-campaign");
+
+    this.overviewTitle = document.getElementById("campaign-title-overview");
+    this.overviewCat = document.getElementById("overview-cat");
+    this.overviewAmount = document.getElementById("overview-amount");
+    this.overviewDays = document.getElementById("overview-days");
+    this.overviewImg = document.getElementById("overview-img");
+    this.overviewShortDesc = document.getElementById("overview-sdesc");
+    this.overviewLocation = document.getElementById("overview-location");
+    this.overviewVideo = document.getElementById("over-video");
+    this.overviewRadioBtns = document.querySelectorAll(".tab-switcher input");
+    this.overviewRLdesc = document.getElementById("overview-ldesc");
+    this.overviewRLstory = document.getElementById("overview-lstory");
+
+    this.pickedBase64;
   }
 
   init() {
@@ -88,12 +102,21 @@ export class NewCampaign {
       }
     });
 
+    document.querySelectorAll('input[name="view"]').forEach((radio) => {
+      radio.addEventListener("change", (e) => {
+        this.#resetRadios();
+        document
+          .querySelector(`.long-${e.target.value}`)
+          .classList.remove("hidden");
+      });
+    });
+
     this.loadingScreen.style.display = "none";
     this.startCampaignScreen.style.display = "flex";
   }
 
   #initNewCamp() {
-    this.#processSteps(4);
+    this.#processSteps(1);
 
     this.newCampForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -181,6 +204,7 @@ export class NewCampaign {
     this.stepOneSection.classList.add("hidden");
     this.stepTwoSection.classList.add("hidden");
     this.stepThreeSection.classList.add("hidden");
+    this.stepFourSection.classList.add("hidden");
   }
 
   #processStepOne() {
@@ -211,6 +235,7 @@ export class NewCampaign {
 
   #processStepFour() {
     this.#clearSelectedStep();
+    this.#initOverview();
     this.stepFourSection.classList.remove("hidden");
     this.stepOne.classList.add("selected");
     this.stepTwo.classList.add("selected");
@@ -232,7 +257,7 @@ export class NewCampaign {
 
     this.uploadTrigger.addEventListener("click", () => imagePicker.click());
 
-    this.imagePicker.addEventListener("change", (event) => {
+    this.imagePicker.addEventListener("change", async (event) => {
       const file = event.target.files[0];
 
       const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
@@ -259,18 +284,71 @@ export class NewCampaign {
         this.imagePickerErrorMsg.style.display = "none";
       }
 
-      if (file) {
-        const reader = new FileReader();
+      try {
+        const base64String = await this.#readFileAsBase64(file);
 
-        reader.onload = (e) => {
-          this.pickerArea.classList.add("hidden");
-          this.imagePreview.src = e.target.result;
-          this.imagePreview.style.display = "block";
-          this.removeImgBtn.style.display = "block";
-        };
-
-        reader.readAsDataURL(file);
+        this.pickerArea.classList.add("hidden");
+        this.imagePreview.src = base64String;
+        this.pickedBase64 = base64String;
+        this.imagePreview.style.display = "block";
+        this.removeImgBtn.style.display = "block";
+      } catch (error) {
+        console.error("Error reading file:", error);
       }
     });
+  }
+
+  #readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  #resetRadios() {
+    document.querySelectorAll('input[name="view"]').forEach((radio) => {
+      document.querySelector(`.long-${radio.value}`).classList.add("hidden");
+    });
+  }
+
+  #initOverview() {
+    const formData = new FormData(this.newCampForm);
+
+    const formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    });
+
+    if (formData.get("video").trim() !== "") {
+      this.overviewVideo.style.display = "block";
+      this.overviewVideo.addEventListener("click", () => {
+        window.open(formData.get("video"), "_blank");
+      });
+    } else {
+      this.overviewVideo.style.display = "none";
+    }
+
+    this.overviewTitle.textContent = formData.get("title");
+    this.overviewCat.textContent = this.valueText.textContent;
+    this.overviewAmount.textContent = `Goal: ${formatter.format(formData.get("amount"))}`;
+    this.overviewDays.textContent = `${formData.get("days")} Days`;
+    this.overviewImg.src = this.pickedBase64;
+
+    this.overviewShortDesc.textContent = formData.get("shortdesc");
+    this.overviewLocation.textContent = formData.get("location");
+    this.overviewRLdesc.textContent = formData.get("longdesc");
+    this.overviewRLstory.textContent = formData.get("story");
+
+    const defaultTab = document.querySelector('input[name="view"]:checked');
+
+    if (defaultTab) {
+      const desc = document.querySelector(`.long-${defaultTab.value}`);
+      desc.classList.remove("hidden");
+    }
   }
 }
