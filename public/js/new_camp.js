@@ -1,4 +1,5 @@
-import { isLoggedIn } from "./auth.js";
+import { getCurrentUser, isLoggedIn } from "./auth.js";
+import { currencyFormatter, showSuccess } from "./utils.js";
 
 export class NewCampaign {
   constructor() {
@@ -11,9 +12,11 @@ export class NewCampaign {
     this.trigger = this.customSelect.querySelector(".custom-select-trigger");
     this.menu = this.customSelect.querySelector(".custom-select-menu");
     this.options = this.customSelect.querySelectorAll(".custom-select-option");
-    this.valueText = this.customSelect.querySelector(".custom-select-value");
+    this.categoryValueText = this.customSelect.querySelector(
+      ".custom-select-value",
+    );
     this.hiddenInput = this.customSelect.querySelector('input[type="hidden"]');
-    this.valueText.classList.add("placeholder");
+    this.categoryValueText.classList.add("placeholder");
 
     this.newCampForm = document.getElementById("new-camp-form");
     this.newCampInputs = this.newCampForm.querySelectorAll(".primary-input");
@@ -57,6 +60,8 @@ export class NewCampaign {
     this.overviewRLdesc = document.getElementById("overview-ldesc");
     this.overviewRLstory = document.getElementById("overview-lstory");
 
+    this.launchCampaignBtn = document.getElementById("launch-campaign");
+
     this.pickedBase64;
   }
 
@@ -83,8 +88,8 @@ export class NewCampaign {
         this.options.forEach((item) => item.classList.remove("selected"));
         option.classList.add("selected");
 
-        this.valueText.textContent = option.textContent;
-        this.valueText.classList.remove("placeholder");
+        this.categoryValueText.textContent = option.textContent;
+        this.categoryValueText.classList.remove("placeholder");
         this.hiddenInput.value = option.dataset.value;
 
         this.customSelect.classList.remove("invalid");
@@ -261,7 +266,7 @@ export class NewCampaign {
       const file = event.target.files[0];
 
       const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-      const maxSize = 10 * 1024 * 1024;
+      const maxSize = 5 * 1024 * 1024;
 
       if (!file) {
         this.imagePickerSection.classList.add("invalid");
@@ -318,13 +323,7 @@ export class NewCampaign {
   #initOverview() {
     const formData = new FormData(this.newCampForm);
 
-    const formatter = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 0,
-    });
-
-    if (formData.get("video").trim() !== "") {
+    if (formData.get("video") !== "") {
       this.overviewVideo.style.display = "block";
       this.overviewVideo.addEventListener("click", () => {
         window.open(formData.get("video"), "_blank");
@@ -334,8 +333,8 @@ export class NewCampaign {
     }
 
     this.overviewTitle.textContent = formData.get("title");
-    this.overviewCat.textContent = this.valueText.textContent;
-    this.overviewAmount.textContent = `Goal: ${formatter.format(formData.get("amount"))}`;
+    this.overviewCat.textContent = this.categoryValueText.textContent;
+    this.overviewAmount.textContent = `Goal: ${currencyFormatter.format(formData.get("amount"))}`;
     this.overviewDays.textContent = `${formData.get("days")} Days`;
     this.overviewImg.src = this.pickedBase64;
 
@@ -350,5 +349,71 @@ export class NewCampaign {
       const desc = document.querySelector(`.long-${defaultTab.value}`);
       desc.classList.remove("hidden");
     }
+
+    this.launchCampaignBtn.addEventListener("click", () => {
+      this.#registerCampaign(formData);
+    });
+  }
+
+  async #registerCampaign(formData) {
+    const newCampaign = {
+      title: formData.get("title"),
+      category: this.categoryValueText.textContent.trim(),
+      goal: formData.get("amount"),
+      deadline: this.#processDeadline(parseInt(formData.get("days"))),
+      img: this.pickedBase64,
+      video: formData.get("video"),
+      shortDesc: formData.get("shortdesc"),
+      longDesc: formData.get("longdesc"),
+      story: formData.get("story"),
+      location: formData.get("location"),
+      approved: false,
+      owner_id: getCurrentUser().id,
+    };
+
+    this.#disableLaunchBtn();
+    const success = await this.#fetchCampaignRegister(newCampaign);
+    if (success) {
+      showSuccess(
+        "Your campaign has been launched successfully. Redirecting to home...",
+      );
+      setTimeout(() => {
+        window.location.replace("/index.html");
+      }, 3000);
+    } else {
+      this.#enableLaunchBtn();
+    }
+  }
+
+  async #fetchCampaignRegister(campData) {
+    const response = await fetch("/campaigns", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(campData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    return true;
+  }
+
+  #disableLaunchBtn() {
+    this.launchCampaignBtn.disabled = true;
+    this.launchCampaignBtn.textContent = "Launching...";
+  }
+
+  #enableLaunchBtn() {
+    this.launchCampaignBtn.disabled = false;
+    this.launchCampaignBtn.textContent = "Launch";
+  }
+
+  #processDeadline(daysToAdd) {
+    const date = new Date();
+    date.setDate(date.getDate() + daysToAdd);
+    return date;
   }
 }

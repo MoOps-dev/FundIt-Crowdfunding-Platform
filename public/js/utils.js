@@ -8,3 +8,9 @@ export function showSuccess(message) {
     toast.classList.remove("show");
   }, 3000);
 }
+
+export const currencyFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});

@@ -131,7 +131,7 @@ export class Login {
 
     showSuccess("Login successful. Redirecting to Home...");
     setTimeout(() => {
-      window.location.href = "/index.html";
+      window.location.replace = "/index.html";
     }, 2000);
   }
 

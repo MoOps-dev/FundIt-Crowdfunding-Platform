@@ -324,7 +324,6 @@
                 Include all costs: production, shipping, platform fees (~8%)
               </li>
               <li>Research similar successful projects for realistic goals</li>
-              <li>Consider offering early bird rewards to build momentum</li>
               <li>30-day campaigns tend to perform best</li>
             </ul>
           </div>
@@ -378,11 +377,11 @@
                   >
                     Upload Image
                   </button>
-                  <span>PNG, JPG up to 10MB</span>
+                  <span>PNG, JPG up to 5MB</span>
                 </div>
               </div>
               <small class="error-message"
-                >Campaign image is required. (PNG, JPG up to 10MB)
+                >Campaign image is required. (PNG, JPG up to 5MB)
               </small>
             </section>
             <section class="login-details">
@@ -459,11 +458,11 @@
               </div>
               <div class="long-cabout hidden">
                 <h4>About this Campaign</h4>
-                <p id="overview-ldesc"></p>
+                <p style="font-size: 14px;" id="overview-ldesc"></p>
               </div>
               <div class="long-cstory hidden">
                 <h4>Campaign Story</h4>
-                <p id="overview-lstory"></p>
+                <p style="font-size: 14px;" id="overview-lstory"></p>
               </div>
             </section>
           </section>
@@ -490,11 +489,13 @@
             <i class="bi bi-arrow-right ml-8"></i>
           </button>
           <button id="launch-campaign" class="primary-btn hidden">
-            Launch Campaign
+            Launch
           </button>
         </footer>
       </div>
+      <div id="toast" class="toast"></div>
     </div>
+    
     <main id="loading" class="loading">
       <h1>FundIt</h1>
     </main>

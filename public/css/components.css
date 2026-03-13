@@ -205,6 +205,10 @@ a {
   transform: translateY(0);
 }
 
+.start-campaign .toast {
+  bottom: 100px;
+}
+
 .nav-icons {
   padding: 5px 8px;
   transition: 0.5s;

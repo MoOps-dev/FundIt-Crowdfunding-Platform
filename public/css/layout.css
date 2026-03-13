@@ -369,8 +369,11 @@
   width: 100%;
   max-height: 200px;
   inline-size: 100%;
-  overflow-wrap: break-word;
-  word-break: break-all;
+  overflow-wrap: anywhere; 
+  word-break: normal;
+  white-space: pre-line;
+  font-style: italic;
+  font-weight: 600;
   box-shadow:
     rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
     rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
@@ -398,7 +401,17 @@
 #overview-ldesc,
 #overview-lstory {
   inline-size: 100%;
+  overflow-wrap: anywhere; 
+  word-break: normal;
+  white-space: pre-line;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  color: var(--foreground);
+}
+
+#campaign-title-overview {
+  inline-size: 100%;
   overflow-wrap: break-word;
   word-break: break-all;
-  white-space: pre-line;
 }

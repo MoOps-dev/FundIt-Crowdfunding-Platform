@@ -191,7 +191,7 @@ export class Register {
     if (success) {
       showSuccess("Account created successfully. Redirecting to login...");
       setTimeout(() => {
-        window.location.href = "/login.html";
+        window.location.replace = "/login.html";
       }, 2000);
     }
   }
