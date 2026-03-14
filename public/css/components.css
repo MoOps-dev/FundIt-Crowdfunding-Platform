@@ -432,3 +432,118 @@ a {
   color: var(--background);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+.user-container {
+  display: flex;
+  gap: 10px;
+}
+
+.user-card {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: box-shadow 0.3s ease;
+  width: 350px;
+  margin: 10px 10px;
+}
+
+.user-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.user-meta h4 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--primary);
+}
+
+.user-meta p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--foreground);
+}
+
+.status-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.status-pill.active {
+  background-color: #e3f9e5;
+  color: #1f7a33;
+}
+
+.status-pill.inactive {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+.user-details {
+  border-top: 1px solid var(--border);
+  padding-top: 15px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.detail-label {
+  color: var(--foreground);
+}
+.detail-value {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.btn-ban {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--destructive);
+  background: transparent;
+  color: var(--destructive);
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-ban:hover {
+  background-color: var(--destructive);
+  color: white;
+}
+
+.btn-ban i {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-ban.unban {
+  color: #1f7a33;
+  border: 1px solid #1f7a33;
+}
+
+.btn-ban.unban:hover {
+  border: 1px solid #1f7a33;
+  background-color: #1f7a33;
+  color: white;
+}

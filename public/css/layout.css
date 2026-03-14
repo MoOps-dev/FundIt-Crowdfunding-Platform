@@ -369,7 +369,7 @@
   width: 100%;
   max-height: 200px;
   inline-size: 100%;
-  overflow-wrap: anywhere; 
+  overflow-wrap: anywhere;
   word-break: normal;
   white-space: pre-line;
   font-style: italic;
@@ -401,7 +401,7 @@
 #overview-ldesc,
 #overview-lstory {
   inline-size: 100%;
-  overflow-wrap: anywhere; 
+  overflow-wrap: anywhere;
   word-break: normal;
   white-space: pre-line;
   text-align: justify;
@@ -414,4 +414,124 @@
   inline-size: 100%;
   overflow-wrap: break-word;
   word-break: break-all;
+}
+
+.admin-main {
+  display: flex;
+  flex-direction: row;
+}
+
+.management-menu {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.side-panel {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--background);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+}
+
+.logo {
+  padding: 32px 24px;
+}
+
+.logo h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -1px;
+}
+
+.side-panel ul {
+  list-style: none;
+  padding: 0 12px;
+  margin: 0;
+}
+
+.side-panel li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 16px;
+  margin-bottom: 4px;
+  gap: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  color: var(--foreground);
+  border-bottom: none;
+}
+
+.side-panel li:hover {
+  background-color: var(--secondary);
+  color: var(--foreground-text);
+}
+
+.side-panel li.active {
+  background-color: var(--accent);
+  color: var(--primary);
+  position: relative;
+}
+
+.side-panel li.active::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 20%;
+  height: 60%;
+  width: 4px;
+  background-color: var(--primary);
+  border-radius: 0 4px 4px 0;
+}
+
+.side-panel i {
+  font-size: 20px;
+  color: inherit; 
+}
+
+.side-panel li span {
+  font-size: 14px;
+  font-weight: 600;
+  color: inherit;
+}
+
+.side-panel li.active span {
+  color: var(--primary);
+}
+
+.section-management-content {
+  display: flex;
+  position: relative;
+  top: 70px;
+  left: 260px;
+  width: calc(100vw - 260px);
+  flex-wrap:wrap;
+
+}
+
+.logo div {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo h5 {
+  padding: 5px 10px;
+  background-color: var(--primary);
+  color: var(--background);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.detail-value {
+  text-transform: capitalize;
 }

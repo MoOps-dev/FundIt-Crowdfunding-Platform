@@ -383,3 +383,13 @@
   font-size: 14px;
   line-height: 1.6;
 }
+
+.admin-main .header {
+  width: calc(100% - 250px);
+  left: 250px;
+}
+
+.admin-main .nav {
+  margin: 15px 40px;
+}
+

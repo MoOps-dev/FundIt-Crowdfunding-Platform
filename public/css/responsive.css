@@ -182,4 +182,9 @@
   .overview-top span {
     border-radius: 0 0 10px 10px;
   }
+
+  .section-management-content {
+    top: 80px;
+    justify-content: center;
+  }
 }
