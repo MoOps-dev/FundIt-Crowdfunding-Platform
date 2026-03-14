@@ -46,7 +46,7 @@
           </div>
         </section>
       </section>
-      <section>
+      <section class="dash-mid-section">
         <header class="header">
           <nav class="nav">
             <h3>User Management</h3>
@@ -72,8 +72,10 @@
                     </div>
 
                     <ul class="menu-list">
-                        <li>
-                        <a href="./index.html"><i class="bi bi-house"></i> Home Page</a>
+                      <li>
+                        <a href="./index.html"
+                          ><i class="bi bi-house"></i> Home Page</a
+                        >
                       </li>
                       <li>
                         <a href="#"><i class="bi bi-person"></i> Profile</a>
@@ -121,11 +123,126 @@
                 </div>
               </div>
               <button class="btn-ban">
-                <i class=" bi bi-gear-wide-connected btn-text"></i>
+                <i class="bi bi-gear-wide-connected btn-text"></i>
               </button>
             </div>
           </div>
         </template>
+        <template id="campaign-card-template">
+          <div class="campaign-card">
+            <div class="card-image-wrapper">
+              <img src="" alt="Campaign Image" class="campaign-img" />
+              <span class="category-badge"></span>
+            </div>
+
+            <div class="card-content">
+              <div>
+                <h3 class="campaign-title"></h3>
+                <p class="campaign-desc"></p>
+              </div>
+              <span class="author"
+                ><div>by <span class="author-name"></span></div>
+                <i class="bi bi-geo-alt"></i
+              ></span>
+
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+              </div>
+
+              <div class="stats-row">
+                <div class="stat-item">
+                  <span class="raised-amount"></span>
+                  <span class="stat-label"
+                    >raised of <span class="goal-amount"></span
+                  ></span>
+                </div>
+                <div class="stat-item text-right">
+                  <span class="backers-count"></span>
+                  <span class="stat-label">backers</span>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <span class="days-left"></span>
+                <span class="status-pill"></span>
+              </div>
+
+              <div class="admin-actions">
+                <button class="btn-approve primary-btn">Approve</button>
+                <button class="btn-delete">Delete</button>
+              </div>
+            </div>
+          </div>
+        </template>
+        <div id="campaign-modal" class="modal-overlay hidden">
+          <div class="modal-content">
+            <div class="review-header">
+              <span class="window-info">Review</span>
+              <button id="close-modal" class="close-btn"><i class="bi bi-x-lg"></i></button>
+            
+            </div>
+            <div id="modal-body">
+              <header class="campaign-header">
+                <div class="name-cat">
+                  <h4 id="campaign-title-overview"></h4>
+                  <div class="cat-text">
+                    <span id="overview-cat"></span>
+                  </div>
+                </div>
+                <div class="amount-duration">
+                  <span id="overview-amount" class="amount"></span>
+                  <span>&bull;</span>
+                  <span id="overview-days" class="days"></span>
+                  <span>&bull;</span>
+                  <span class="location-text"
+                    ><i class="bi bi-geo-alt-fill"> </i>
+                    <span id="overview-location"></span>
+                  </span>
+                </div>
+              </header>
+              <section class="camp-details-overview">
+                <div class="overview-top">
+                  <div class="image-container">
+                    <img
+                      id="overview-img"
+                      src=""
+                      alt="campaign image overview"
+                    />
+                    <button id="over-video" type="button" class="remove-btn">
+                      <i class="bi bi-youtube"></i>
+                      Watch Video
+                    </button>
+                  </div>
+
+                  <div><span id="overview-sdesc"></span></div>
+                </div>
+                <div class="tab-switcher">
+                  <input
+                    type="radio"
+                    name="view"
+                    id="cabout"
+                    value="cabout"
+                    checked
+                  />
+                  <label for="cabout">About this Campaign</label>
+
+                  <input type="radio" name="view" id="cstory" value="cstory" />
+                  <label for="cstory">Story</label>
+                </div>
+                <div class="long-cabout hidden">
+                  <h4>About this Campaign</h4>
+                  <p style="font-size: 14px" id="overview-ldesc"></p>
+                </div>
+                <div class="long-cstory hidden">
+                  <h4>Campaign Story</h4>
+                  <p style="font-size: 14px" id="overview-lstory"></p>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
         <div class="section-management-content"></div>
         <div id="toast" class="toast"></div>
       </section>

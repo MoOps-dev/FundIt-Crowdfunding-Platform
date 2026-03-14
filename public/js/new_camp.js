@@ -361,7 +361,6 @@ export class NewCampaign {
       category: this.categoryValueText.textContent.trim(),
       goal: formData.get("amount"),
       deadline: this.#processDeadline(parseInt(formData.get("days"))),
-      img: this.pickedBase64,
       video: formData.get("video"),
       shortDesc: formData.get("shortdesc"),
       longDesc: formData.get("longdesc"),
@@ -369,13 +368,14 @@ export class NewCampaign {
       location: formData.get("location"),
       approved: false,
       owner_id: getCurrentUser().id,
+      img: this.pickedBase64,
     };
 
     this.#disableLaunchBtn();
     const success = await this.#fetchCampaignRegister(newCampaign);
     if (success) {
       showSuccess(
-        "Your campaign has been launched successfully. Redirecting to home...",
+        "Your campaign has been saved, an admin will review it for approval within 48 hours.",
       );
       setTimeout(() => {
         window.location.replace("/index.html");

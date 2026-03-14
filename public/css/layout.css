@@ -330,7 +330,7 @@
 
 .overview-top {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 10px;
   margin: 20px;
   align-items: stretch;
@@ -338,18 +338,18 @@
 }
 
 .overview-top div:first-child {
-  flex: 0 0 70%;
+  flex: 0 0 80%;
 }
 
 .overview-top div:last-child {
-  flex: 0 0 30%;
+  flex: 0 0 20%;
   display: flex;
 }
 
 .overview-top img {
   width: 100%;
-  height: 200px;
-  border-radius: 10px 0px 0px 10px;
+  height: 400px;
+  border-radius: 10px 10px 0px 0px;
   object-fit: cover;
   display: block;
   box-shadow:
@@ -361,9 +361,10 @@
 .overview-top span {
   display: flex;
   align-items: center;
-  padding: 20px;
-  background: var(--input-background);
-  border-radius: 0px 10px 10px 0px;
+  justify-content: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 0px 0px 10px 10px;
   font-size: 0.95rem;
   line-height: 1.6;
   width: 100%;
@@ -378,6 +379,8 @@
     rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
     rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
     rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  border-left: 1px solid #eaecf0;
+  color: #344054;
 }
 
 .location-text {
@@ -419,6 +422,7 @@
 .admin-main {
   display: flex;
   flex-direction: row;
+  background-color: var(--color-gray-50);
 }
 
 .management-menu {
@@ -493,7 +497,7 @@
 
 .side-panel i {
   font-size: 20px;
-  color: inherit; 
+  color: inherit;
 }
 
 .side-panel li span {
@@ -506,14 +510,19 @@
   color: var(--primary);
 }
 
+.dash-mid-section {
+  background-color: var(--color-gray-50);
+}
+
 .section-management-content {
   display: flex;
   position: relative;
   top: 70px;
   left: 260px;
-  width: calc(100vw - 260px);
-  flex-wrap:wrap;
-
+  width: calc(100vw - 280px);
+  flex-wrap: wrap;
+  align-items: flex-start;
+  background-color: var(--color-gray-50);
 }
 
 .logo div {
