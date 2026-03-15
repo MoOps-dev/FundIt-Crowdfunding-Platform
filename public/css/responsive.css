@@ -27,6 +27,10 @@
     width: 500px;
     height: 500px;
   }
+
+  .discover {
+    padding: 5rem 10rem;
+  }
 }
 
 @media (max-width: 1248px) {
@@ -46,6 +50,10 @@
   .hero-img img {
     width: 450px;
     height: 450px;
+  }
+
+  .discover {
+    padding: 5rem 5rem;
   }
 }
 
@@ -187,4 +195,23 @@
     top: 80px;
     justify-content: center;
   }
+
+  .discover {
+    padding: 5rem 2rem;
+  }
+
+  .projects {
+    justify-content: center;
+  }
+
+  .back-top {
+    flex-direction: column;
+  }
+
+  .funding-card {
+    width: 91%;
+    max-width: none;
+    margin: 10px 20px;
+  }
+
 }

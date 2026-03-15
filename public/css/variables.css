@@ -9,9 +9,11 @@ body {
   --foreground--semilight: #71718260;
   --accent: #e9ebef;
   --color-indigo-100: oklch(93.191% 0.03248 270.463);
+  --color-gray: oklch(0.985 0.002 247.839);
   --destructive: #d4183d;
   --border: rgba(0, 0, 0, 0.1);
+  --color-gray-50: oklch(0.985 0.002 247.839);
   --input-background: #f3f3f5;
   --switch-background: #cbced4;
-  --color-gray-50: oklch(0.985 0.002 247.839);
+  
 }

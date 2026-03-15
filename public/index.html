@@ -24,7 +24,12 @@
         <span>FundIt</span>
         <ul class="nav-links">
           <button class="secondary-btn">Discover</button>
-          <button class="secondary-btn" onclick="window.location.href = 'new-campaign.html'">Start a Campaign</button>
+          <button
+            class="secondary-btn"
+            onclick="window.location.href = 'new-campaign.html'"
+          >
+            Start a Campaign
+          </button>
           <button class="secondary-btn">About</button>
         </ul>
         <div class="search-wrap">
@@ -55,37 +60,41 @@
           <i class="bi bi-heart nav-icons"></i>
           <i class="bi bi-bell nav-icons"></i>
           <div class="profile-wrapper">
-          <div id="user-avatar" class="user-menu">
-            <span id="avatar" class="avatar"></span>
-            <div class="profile-menu hidden" id="profile-menu">
-              <div class="profile-header">
-                <h3 id="user-name"></h3>
-                <p id="user-email"></p>
-              </div>
+            <div id="user-avatar" class="user-menu">
+              <span id="avatar" class="avatar"></span>
+              <div class="profile-menu hidden" id="profile-menu">
+                <div class="profile-header">
+                  <h3 id="user-name"></h3>
+                  <p id="user-email"></p>
+                </div>
 
-              <ul class="menu-list">
-                <li>
-                  <a href="#"><i class="bi bi-person"></i> Profile</a>
-                </li>
-                <li>
-                  <a href="#"><i class="bi bi-folder"></i> My Campaigns</a>
-                </li>
-                <li>
-                  <a href="#"><i class="bi bi-heart"></i> Backed Campaigns</a>
-                </li>
-                <li id="admin-dashboard" class="hidden">
-                  <a href="./admin.html"><i class="bi bi-speedometer2"></i> Admin Dashboard</a>
-                </li>
-                <li>
-                  <a href="#"><i class="bi bi-gear"></i> Settings</a>
-                </li>
-              </ul>
+                <ul class="menu-list">
+                  <li>
+                    <a href="#"><i class="bi bi-person"></i> Profile</a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="bi bi-folder"></i> My Campaigns</a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="bi bi-heart"></i> Backed Campaigns</a>
+                  </li>
+                  <li id="admin-dashboard" class="hidden">
+                    <a href="./admin.html"
+                      ><i class="bi bi-speedometer2"></i> Admin Dashboard</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"><i class="bi bi-gear"></i> Settings</a>
+                  </li>
+                </ul>
 
-              <div class="menu-footer">
-                <a href="#" id="logoutBtn"><i class="bi bi-box-arrow-right"></i> Log out</a>
+                <div class="menu-footer">
+                  <a href="#" id="logoutBtn"
+                    ><i class="bi bi-box-arrow-right"></i> Log out</a
+                  >
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
       </nav>
@@ -131,7 +140,10 @@
               Back amazing ideas or start your own campaign today.
             </p>
             <div class="hero-btns">
-              <button class="primary-btn" onclick="window.location.href = 'new-campaign.html'">
+              <button
+                class="primary-btn"
+                onclick="window.location.href = 'new-campaign.html'"
+              >
                 Start a campaign
                 <i class="bi bi-arrow-right ml-8"></i>
               </button>
@@ -158,6 +170,171 @@
               src="https://images.unsplash.com/photo-1568992688243-52608227497d"
               alt="people in a workspace"
             />
+          </div>
+        </div>
+      </section>
+      <section class="discover">
+        <div class="discover-header">
+          <h2>Discover</h2>
+          <span>8 projects</span>
+        </div>
+        <template id="campaign-card-template">
+          <div class="campaign-card">
+            <div class="card-image-wrapper">
+              <img src="" alt="Campaign Image" class="campaign-img" />
+              <span class="category-badge"></span>
+            </div>
+
+            <div class="card-content">
+              <div>
+                <h3 class="campaign-title"></h3>
+                <p class="campaign-desc"></p>
+              </div>
+              <span class="author"
+                ><div>by <span class="author-name"></span></div>
+                <i class="bi bi-geo-alt"></i
+              ></span>
+
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+              </div>
+
+              <div class="stats-row">
+                <div class="stat-item">
+                  <span class="raised-amount"></span>
+                  <span class="stat-label"
+                    >raised of <span class="goal-amount"></span
+                  ></span>
+                </div>
+                <div class="stat-item text-right">
+                  <span class="backers-count"></span>
+                  <span class="stat-label">backers</span>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <span class="days-left"></span>
+                <span class="status-pill"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+        <div class="projects"></div>
+        <div id="campaign-modal" class="modal-overlay hidden">
+          <div class="modal-content">
+            <div class="review-header">
+              <span class="window-info">Overview</span>
+              <button id="close-modal" class="close-btn">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+            <div id="modal-body">
+              <header class="campaign-header">
+                <div class="name-cat">
+                  <h4 id="campaign-title-overview"></h4>
+                  <div class="cat-text">
+                    <span id="overview-cat"></span>
+                  </div>
+                </div>
+                <div class="amount-duration">
+                  <span id="overview-amount" class="amount"></span>
+                  <span>&bull;</span>
+                  <span id="overview-days" class="days"></span>
+                  <span>&bull;</span>
+                  <span class="location-text"
+                    ><i class="bi bi-geo-alt-fill"> </i>
+                    <span id="overview-location"></span>
+                  </span>
+                </div>
+              </header>
+              <section class="camp-details-overview">
+                <div class="back-top">
+                  <div>
+                    <div class="overview-top">
+                      <div class="image-container">
+                        <img
+                          id="overview-img"
+                          src=""
+                          alt="campaign image overview"
+                        />
+                        <button
+                          id="over-video"
+                          type="button"
+                          class="remove-btn"
+                        >
+                          <i class="bi bi-youtube"></i>
+                          Watch Video
+                        </button>
+                      </div>
+
+                      <div><span id="overview-sdesc"></span></div>
+                    </div>
+                  </div>
+                  <div class="funding-card">
+                    <div class="card-badges">
+                      <span class="badge badge-funded"></span>
+                    </div>
+
+                    <div class="money-stats">
+                      <h2 class="amount-raised"></h2>
+                      <p class="goal-text"></p>
+                    </div>
+
+                    <div class="progress-bar-container">
+                      <div class="progress-fill"></div>
+                    </div>
+
+                    <div class="stats-row-view">
+                      <div class="stat-item">
+                        <span id="backers" class="stat-number-view"></span>
+                        <span class="stat-label-view">backers</span>
+                      </div>
+                      <div class="stat-divider"></div>
+                      <div class="stat-item">
+                        <span id="days" class="stat-number-view"></span>
+                        <span class="stat-label-view">days to go</span>
+                      </div>
+                    </div>
+
+                    <button class="btn-back-project">Back this campaign</button>
+
+                    <div class="card-footer-info">
+                      <div>
+                        <i class="bi bi-calendar3"></i>
+                        <span id="deadline"></span>
+                      </div>
+                      <div>
+                        <i class="bi bi-geo-alt"></i>
+                        <span id="location"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-switcher">
+                  <input
+                    type="radio"
+                    name="view"
+                    id="cabout"
+                    value="cabout"
+                    checked
+                  />
+                  <label for="cabout">About this Campaign</label>
+
+                  <input type="radio" name="view" id="cstory" value="cstory" />
+                  <label for="cstory">Story</label>
+                </div>
+                <div class="long-cabout hidden">
+                  <h4>About this Campaign</h4>
+                  <p style="font-size: 14px" id="overview-ldesc"></p>
+                </div>
+                <div class="long-cstory hidden">
+                  <h4>Campaign Story</h4>
+                  <p style="font-size: 14px" id="overview-lstory"></p>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
       </section>

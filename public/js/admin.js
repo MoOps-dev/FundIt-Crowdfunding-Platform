@@ -3,6 +3,8 @@ import { currencyFormatter, getDaysLeft, showSuccess } from "./utils.js";
 
 export class Admin {
   constructor() {
+    this.adminMain = document.querySelector(".admin-main");
+    this.loadingScreen = document.getElementById("loading");
     this.userInfo = document.getElementById("user-info");
     this.avatar = document.getElementById("avatar");
     this.userAvatar = document.getElementById("user-avatar");
@@ -36,8 +38,12 @@ export class Admin {
   }
 
   init() {
-    this.#initNavbar();
-    this.#initSidePanel();
+    if (isLoggedIn() && getCurrentUser().role === "admin") {
+      this.#initNavbar();
+      this.#initSidePanel();
+    } else {
+      window.location.replace("./index.html");
+    }
   }
 
   #initNavbar() {
@@ -79,6 +85,9 @@ export class Admin {
         this.#SearchSection(this.activeSection, value);
       }, 1000);
     });
+
+    this.loadingScreen.style.display = "none";
+    this.adminMain.style.display = "flex";
   }
 
   async #fetchSection(section) {
@@ -228,9 +237,17 @@ export class Admin {
 
         document.body.style.overflow = "hidden";
 
-        closeBtn.addEventListener("click", () => {
+        const closeModal = () => {
           modal.classList.add("hidden");
           document.body.style.overflow = "auto";
+        };
+
+        closeBtn.addEventListener("click", closeModal);
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+            closeModal();
+          }
         });
 
         if (camp.video !== "") {
@@ -309,6 +326,7 @@ export class Admin {
   }
 
   async #approveCamp(camp) {
+    showSuccess(`Approving selected campaign...`);
     camp.approved = !camp.approved;
 
     const response = await fetch(`/campaigns/${camp.id}`, {
@@ -326,6 +344,7 @@ export class Admin {
   }
 
   async #deleteCamp(camp) {
+    showSuccess(`Deleting selected campaign...`);
     const response = await fetch(`/campaigns/${camp.id}`, {
       method: "DELETE",
     });
@@ -339,6 +358,8 @@ export class Admin {
   }
 
   async #userAction(user) {
+    showSuccess(`Performing user state change...`);
+
     user.isActive = !user.isActive;
 
     const response = await fetch(`/users/${user.id}`, {

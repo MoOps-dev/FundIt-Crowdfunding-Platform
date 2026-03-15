@@ -427,8 +427,8 @@ a {
 }
 
 .tab-switcher input[type="radio"]:checked + label {
-  background-color: var(--primary);
-  color: var(--background);
+  background-color: var(--background);
+  color: var(--primary);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -538,15 +538,17 @@ a {
 }
 
 .campaign-card {
-  width: 320px;
+  width: 300px;
+  min-width: 300px;
   background: white;
   border-radius: 12px;
   overflow: hidden;
   transition: 0.2s;
-  margin: 10px 10px;
+  margin: 10px 0px;
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border);
+  
 }
 
 .campaign-card:hover {
@@ -741,7 +743,7 @@ a {
   width: 768px;
   max-width: 768px;
   height: 90%;
-  border-radius: 16px;
+  border-radius: 10px;
   position: relative;
   overflow: hidden; 
   display: flex;
@@ -752,12 +754,6 @@ a {
 }
 
 .close-btn {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  position: absolute;
-  top: 5px;
-  right: 15px;
   font-size: 1.5rem;
   background: none;
   border: none;
@@ -773,12 +769,6 @@ a {
 }
 
 .window-info {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  position: absolute;
-  top: 5px;
-  left: 11px;
   background: none;
   border: none;
   color: #6b7280;
@@ -789,7 +779,7 @@ a {
   font-size: 18px;
 }
 
-.window-info::after {
+/* .window-info::after {
   content: "";
   display: block;
   width: 100%;
@@ -797,7 +787,7 @@ a {
   background: #6b7280;
   margin-top: 5px;
   border-radius: 2px;
-}
+} */
 
 .review-header {
   position: sticky;
@@ -809,13 +799,125 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 10px;
   border-bottom: 1px solid var(--border); 
 }
 
 #modal-body {
-  /* Only the content below the header scrolls */
   overflow-y: auto; 
   flex-grow: 1;
-  padding: 0px 0px; /* Moves your content padding here */
+  padding: 0px 0px;
+}
+
+.funding-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 20px;
+  width: 100%;
+  height: 50%;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 20px 0;
+  margin-right: 20px;
+}
+
+.card-badges {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.badge-funded {
+  background: #0d1117;
+  color: white;
+}
+
+.badge-category {
+  border: 1px solid #e5e7eb;
+  color: #333;
+}
+
+.amount-raised {
+  font-size: 26px;
+  color: #27ae60;
+  margin: 0;
+  font-weight: 800;
+}
+
+.goal-text {
+  color: #6b7280;
+  margin: 5px 0 20px 0;
+  font-size: 12px;
+}
+
+.progress-bar-container {
+  background: #f3f4f6;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+
+.progress-fill {
+  background: #0d1117;
+  height: 100%;
+}
+
+.stats-row-view {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.stat-number-view {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0d1117;
+}
+
+.stat-label-view {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 30px;
+  background: #e5e7eb;
+}
+
+.btn-back-project {
+  width: 100%;
+  background: #0d1117;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.card-footer-info {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.card-footer-info i {
+  margin-right: 5px;
 }
