@@ -23,7 +23,7 @@
       <nav class="nav">
         <span>FundIt</span>
         <ul class="nav-links">
-          <button class="secondary-btn">Discover</button>
+          <button id="discover-btn" class="secondary-btn">Discover</button>
           <button
             class="secondary-btn"
             onclick="window.location.href = 'new-campaign.html'"
@@ -100,7 +100,7 @@
       </nav>
       <div class="sub-header">
         <div class="categories">
-          <input type="radio" id="all" name="category" value="All" checked />
+          <input type="radio" id="all" name="category" value="" checked />
           <label for="all">All</label>
 
           <input type="radio" id="tech" name="category" value="Technology" />
@@ -174,9 +174,26 @@
         </div>
       </section>
       <section class="discover">
+        <div class="search-wrap hidden">
+          <i class="bi bi-search search-icon"></i>
+          <input
+            id="search-res"
+            class="primary-input"
+            type="text"
+            placeholder="Search campaigns..."
+          />
+        </div>
         <div class="discover-header">
           <h2>Discover</h2>
-          <span>8 projects</span>
+          <div id="pagination-controls" class="pagination-wrapper"></div>
+          <span></span>
+        </div>
+        <div class="no-camps hidden">
+          <h5>No campaigns found</h5>
+          <span
+            >Try adjusting your search terms or browse different
+            categories</span
+          >
         </div>
         <template id="campaign-card-template">
           <div class="campaign-card">
@@ -275,6 +292,7 @@
                   <div class="funding-card">
                     <div class="card-badges">
                       <span class="badge badge-funded"></span>
+                      <span class="badge badge-category"></span>
                     </div>
 
                     <div class="money-stats">

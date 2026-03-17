@@ -81,6 +81,10 @@
     display: none;
   }
 
+  .discover .search-wrap {
+    display: block;
+  }
+
   .login-welcome {
     display: none;
   }
@@ -213,5 +217,4 @@
     max-width: none;
     margin: 10px 20px;
   }
-
 }

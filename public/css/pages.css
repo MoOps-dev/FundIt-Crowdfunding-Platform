@@ -396,10 +396,14 @@
 .discover {
   height: auto;
   width: 100%;
-  background-color: var(--color-gray-50);
+  background-color: var(--background);
   display: flex;
   flex-direction: column;
   padding: 5rem 15rem;
+}
+
+.discover.focused {
+  margin-top: 5rem;
 }
 
 .discover-header {
@@ -416,10 +420,14 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  padding: 20px 0;
+  padding: 40px 0;
 }
 
 .discover .modal-content {
   width: 900px;
   max-width: 900px;
+}
+
+.discover .search-wrap {
+  margin-bottom: 30px;
 }

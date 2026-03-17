@@ -339,10 +339,11 @@
 
 .overview-top img {
   width: 100%;
-  height: 400px;
+  height: 260px;
   border-radius: 10px 10px 0px 0px;
   object-fit: cover;
   display: block;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 .overview-top span {
@@ -364,6 +365,7 @@
   font-weight: 600;
   border: 1px solid #eaecf0;
   color: #344054;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 .location-text {
@@ -532,4 +534,41 @@
 .back-top {
   display: flex;
   flex-direction: row;
+}
+
+.no-camps {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 5rem;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.page-btn, .active-page {
+    padding: 0.2rem 1rem;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+    background-color: var(--secondary);
+    border-color: #cbd5e1;
+}
+
+.active-page {
+    background-color: #000;
+    color: white;
+    border-color: #000;
 }

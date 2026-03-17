@@ -30,7 +30,8 @@ export class Index {
     this.overviewRLdesc = document.getElementById("overview-ldesc");
     this.overviewRLstory = document.getElementById("overview-lstory");
 
-    this.badge = document.querySelector(".badge");
+    this.badgeFunded = document.querySelector(".badge-funded");
+    this.badgeCategory = document.querySelector(".badge-category");
     this.amountRaised = document.querySelector(".amount-raised");
     this.goalText = document.querySelector(".goal-text");
     this.progressFill = document.querySelector(".progress-fill");
@@ -39,11 +40,23 @@ export class Index {
     this.deadline = document.getElementById("deadline");
     this.location = document.getElementById("location");
     this.owner = document.querySelector(".window-info");
+
+    this.btnDiscover = document.getElementById("discover-btn");
+    this.heroSection = document.querySelector(".hero");
+    this.discoverSection = document.querySelector(".discover");
+
+    this.discoverTitle = document.querySelector(".discover-header h2");
+    this.searchBox = document.getElementById("search");
+    this.searchBoxRes = document.getElementById("search-res");
+
+    this.ITEMS_PER_PAGE = 8
+    this.currentPage = 1;
   }
 
   init() {
     this.#initNavbar();
     this.#fetchCampaigns();
+    this.#initSearchFilters();
   }
 
   #initNavbar() {
@@ -87,6 +100,14 @@ export class Index {
         this.profileMenu.classList.remove("open");
       }
     });
+
+    this.btnDiscover.addEventListener("click", (e) => {
+      if (e.target.textContent === "Discover") {
+        this.#hideHero();
+      } else {
+        this.#showHero();
+      }
+    });
   }
 
   #processMenuContent() {
@@ -106,8 +127,15 @@ export class Index {
     });
   }
 
-  async #fetchCampaigns() {
-    const response = await fetch(`/campaigns?approved=true`);
+  async #fetchCampaigns(query = "") {
+    const trimmedQuery = query.trim();
+    const currentTab = document.querySelector('input[name="category"]:checked');
+
+    let filter = `{"or":[{"title":{"contains":"${trimmedQuery}"}},{"goal":{"contains":"${trimmedQuery}"}},{"category":{"contains":"${trimmedQuery}"}},{"shortDesc":{"contains":"${trimmedQuery}"}}]}`;
+
+    const response = await fetch(
+      `/campaigns?${query !== "" ? `_where=${encodeURIComponent(filter)}` : ""}`,
+    );
 
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status}`);
@@ -115,17 +143,39 @@ export class Index {
 
     const data = await response.json();
 
-    this.#loadCampaigns(data.sort((a, b) => a.approved - b.approved));
+    this.#loadCampaigns(
+      data.filter((e) => {
+        if (currentTab.value !== "") {
+          return (e.approved === true) & (e.category === currentTab.value);
+        } else {
+          return e.approved === true;
+        }
+      }),
+    );
   }
 
   #loadCampaigns(data) {
     const count = document.querySelector(".discover-header span");
-    count.textContent = `${data.length} Campaigns`;
+    const noCamp = document.querySelector(".no-camps");
+    const campaignCount = data.length;
+
+    const startIndex = (this.currentPage - 1) * this.ITEMS_PER_PAGE;
+    const endIndex = startIndex + this.ITEMS_PER_PAGE;
+    const paginatedData = data.slice(startIndex, endIndex);
+
+    if (data.length < 1) {
+      noCamp.classList.remove("hidden");
+      this.#hideHero();
+    } else {
+      noCamp.classList.add("hidden");
+    }
+
+    count.textContent = `${campaignCount < 1 ? 0 : startIndex + 1}-${endIndex > campaignCount ? campaignCount : endIndex} of ${campaignCount} Campaigns`;
     const template = document.getElementById("campaign-card-template");
 
     this.sectionContainer.replaceChildren();
 
-    data.forEach(async (camp) => {
+    paginatedData.forEach(async (camp) => {
       const clone = template.content.cloneNode(true);
 
       clone.querySelector(".campaign-title").textContent = camp.title;
@@ -133,8 +183,8 @@ export class Index {
       clone.querySelector(".campaign-img").src = camp.img;
       clone.querySelector(".campaign-desc").textContent = camp.shortDesc;
       const campOwner = await this.#getCampaignAuthor(camp.owner_id);
-      clone.querySelector(".author-name").textContent =campOwner;
-        
+      clone.querySelector(".author-name").textContent = campOwner;
+
       clone.querySelector(".goal-amount").textContent =
         currencyFormatter.format(camp.goal);
       if (camp.approved) {
@@ -212,10 +262,12 @@ export class Index {
         this.overviewRLdesc.textContent = camp.longDesc;
         this.overviewRLstory.textContent = camp.story;
 
-        this.badge.textContent =
+        this.badgeFunded.textContent =
           safePercentage >= 100
             ? "Funded"
             : `${Math.floor(safePercentage)}% Funded`;
+
+        this.badgeCategory.textContent = camp.category;
 
         this.progressFill.style.width = `${safePercentage}%`;
         const defaultTab = document.querySelector('input[name="view"]:checked');
@@ -245,6 +297,27 @@ export class Index {
 
       this.sectionContainer.appendChild(clone);
     });
+
+    this.#renderPaginationControls(data.length);
+  }
+
+  #renderPaginationControls(totalItems) {
+    const totalPages = Math.ceil(totalItems / this.ITEMS_PER_PAGE);
+    const controlsContainer = document.getElementById("pagination-controls");
+    controlsContainer.innerHTML = "";
+
+    if (totalPages <= 1) return;
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.className = i === this.currentPage ? "active-page" : "page-btn";
+      btn.addEventListener("click", () => {
+        this.currentPage = i;
+        this.#fetchCampaigns(this.searchBox.value);
+      });
+      controlsContainer.appendChild(btn);
+    }
   }
 
   #resetRadiosIndex() {
@@ -278,5 +351,57 @@ export class Index {
       data.reduce((sum, item) => sum + parseInt(item.amount), 0),
       data.length,
     ];
+  }
+
+  #hideHero() {
+    this.heroSection.classList.add("hidden");
+    this.btnDiscover.textContent = "Home";
+    this.discoverSection.classList.add("focused");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  #showHero() {
+    this.heroSection.classList.remove("hidden");
+    this.btnDiscover.textContent = "Discover";
+    this.discoverSection.classList.remove("focused");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  #initSearchFilters() {
+    document.querySelectorAll('input[name="category"]').forEach((radio) => {
+      radio.addEventListener("change", (e) => {
+        this.#hideHero();
+        const searchValue = this.searchBox.value || this.searchBoxRes.value;
+        this.#fetchCampaigns(searchValue);
+        if (e.target.value !== ""){
+          this.discoverTitle.textContent = `${e.target.value} Campaigns`
+        }
+        else {
+          this.discoverTitle.textContent = "Discover";
+        }
+        
+      });
+    });
+
+    let searchTimer;
+    this.searchBox.addEventListener("input", (e) => {
+      const value = e.target.value;
+      clearTimeout(searchTimer);
+
+      searchTimer = setTimeout(() => {
+        this.#hideHero();
+        this.#fetchCampaigns(value);
+      }, 1000);
+    });
+
+    this.searchBoxRes.addEventListener("input", (e) => {
+      const value = e.target.value;
+      clearTimeout(searchTimer);
+
+      searchTimer = setTimeout(() => {
+        this.#hideHero();
+        this.#fetchCampaigns(value);
+      }, 1000);
+    });
   }
 }
