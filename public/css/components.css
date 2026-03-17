@@ -89,10 +89,6 @@
   margin-right: 8px;
 }
 
-.menu-btn {
-  display: none;
-}
-
 .login-secondary-btn {
   font-weight: 400;
 }
@@ -920,4 +916,9 @@ a {
 
 .card-footer-info i {
   margin-right: 5px;
+}
+
+.secondary-btn.menu-btn {
+  padding: 0 0;
+  background-color: transparent;
 }

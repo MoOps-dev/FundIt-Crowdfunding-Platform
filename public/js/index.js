@@ -69,6 +69,11 @@ export class Index {
       document.body.style.overflow = "hidden";
     });
 
+    this.navMenu.addEventListener("click", () => {
+      this.navMenu.classList.toggle("active");
+      document.body.style.overflow = "auto";
+    });
+
     this.#processLogin();
     this.#ProcessUserMenu();
     this.#processMenuContent();

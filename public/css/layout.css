@@ -572,3 +572,11 @@
     color: white;
     border-color: #000;
 }
+
+.menu-logo {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: nowrap;
+  align-items: center;
+}
