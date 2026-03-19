@@ -68,6 +68,7 @@ export class NewCampaign {
     const params = new URLSearchParams(window.location.search);
     this.mode = params.get("edit") || false;
     this.campId = params.get("id") || "";
+    this.originalOwner; 
   }
 
   init() {
@@ -121,6 +122,8 @@ export class NewCampaign {
     campVideo.value = campInfo.video;
 
     this.launchCampaignBtn.textContent = "Update";
+
+    this.originalOwner = campInfo.owner_id;
   }
 
   async #fetchSignleCampaign(id) {
@@ -428,7 +431,7 @@ export class NewCampaign {
       story: formData.get("story"),
       location: formData.get("location"),
       approved: false,
-      owner_id: getCurrentUser().id,
+      owner_id: this.mode ? this.originalOwner : getCurrentUser().id,
       img: this.pickedBase64,
     };
 
