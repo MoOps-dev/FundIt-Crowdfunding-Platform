@@ -100,7 +100,7 @@ export class Index {
     });
 
     this.navMenu.addEventListener("click", () => {
-      this.navMenu.classList.toggle("active");
+      this.navMenu.classList.remove("active");
       document.body.style.overflow = "auto";
     });
 
@@ -427,6 +427,22 @@ export class Index {
           this.discoverTitle.textContent = `${e.target.value} Campaigns`;
         } else {
           this.discoverTitle.textContent = "Discover";
+        }
+      });
+    });
+
+    const categories = document.querySelectorAll(".cat-list li");
+
+    categories.forEach((item, index) => {
+      const text = item.textContent.trim();
+      item.addEventListener("click", () => {
+        const targetRadio = document.querySelector(
+          `input[name="category"][value="${text}"]`,
+        );
+
+        if (targetRadio) {
+          targetRadio.checked = true;
+          targetRadio.dispatchEvent(new Event("change", { bubbles: true }));
         }
       });
     });

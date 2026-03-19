@@ -31,12 +31,21 @@
   .discover {
     padding: 5rem 10rem;
   }
+
+  .footer-container {
+    margin: 0 10rem;
+  }
 }
 
 @media (max-width: 1248px) {
   .nav {
     margin: 0px 5rem;
     margin-top: 20px;
+  }
+
+  .footer-container {
+    margin: 0 5rem;
+    align-items: center;
   }
 
   .sub-header {
@@ -240,4 +249,31 @@
     left: 0;
     top: 65px;
   }
+
+  .footer-container {
+    margin: 0 2rem;
+    align-items: center;
+  }
+
+  .footer-middle .footer-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .legal-links {
+  align-items: center;
+  justify-content: center;
+}
+
+.copyright {
+  text-align: center;
+}
+
+.footer-col {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
 }

@@ -1,4 +1,4 @@
-body {
+:root {
   --primary: #030213;
   --background: #ffffff;
   --foreground-text: oklch(0.145 0 0);
@@ -15,5 +15,15 @@ body {
   --color-gray-50: oklch(0.985 0.002 247.839);
   --input-background: #f3f3f5;
   --switch-background: #cbced4;
+  --footer-bg: #0b0f19;
+  --footer-text: #adb5bd;
+  --footer-heading: #ffffff;
+  --footer-border: #1f2937;
   
+  --footer-pill-bg: #111827;
+  --footer-pill-border: #374151;
+  
+  --color-secure: #10b981;
+  --color-protected: #3b82f6;
+  --color-trusted: #8b5cf6;
 }
