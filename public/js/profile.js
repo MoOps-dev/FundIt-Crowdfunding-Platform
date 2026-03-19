@@ -29,6 +29,9 @@ export class Profile {
       ".section-management-content",
     );
 
+    this.menuButton = document.querySelector(".menu-btn");
+    this.sidePanel = document.querySelector(".side-panel");
+
     this.overviewTitle = document.getElementById("campaign-title-overview");
     this.overviewCat = document.getElementById("overview-cat");
     this.overviewAmount = document.getElementById("overview-amount");
@@ -54,6 +57,15 @@ export class Profile {
   }
 
   #initNavbar() {
+    this.menuButton.addEventListener("click", () => {
+      this.sidePanel.classList.toggle("active");
+      if (document.body.style.overflow === "hidden") {
+        document.body.style.overflow = "auto";
+        return;
+      }
+      document.body.style.overflow = "hidden";
+    });
+
     this.#processLogin();
     this.#ProcessUserMenu();
     this.#processMenuContent();
@@ -73,6 +85,9 @@ export class Profile {
 
     this.listItems.forEach((item) => {
       item.addEventListener("click", (event) => {
+        this.sidePanel.classList.toggle("active");
+        document.body.style.overflow = "auto";
+
         if (event.currentTarget.classList.contains("active")) return;
 
         this.listItems.forEach((li) => li.classList.remove("active"));

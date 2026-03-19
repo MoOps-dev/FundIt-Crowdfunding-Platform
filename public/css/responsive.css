@@ -217,4 +217,27 @@
     max-width: none;
     margin: 10px 20px;
   }
+
+  .side-panel {
+    display: none;
+  }
+
+  .admin-main .header {
+    width: 100%;
+    left: 0;
+    position: fixed;
+  }
+
+  .section-management-content {
+    width: 100%;
+    left: 0;
+  }
+
+  .side-panel.active {
+    display: flex;
+    width: 100vw;
+    z-index: 1000;
+    left: 0;
+    top: 65px;
+  }
 }
