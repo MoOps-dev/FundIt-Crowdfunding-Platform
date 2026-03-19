@@ -34,3 +34,13 @@ export const formattedDate = (e) => {
     day: "numeric",
   });
 };
+
+export const formattedDateDetailed = (e) => {
+  const date = new Date(e);
+
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  });
+};

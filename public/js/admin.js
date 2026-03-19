@@ -1,5 +1,11 @@
 import { getCurrentUser, isLoggedIn, logout } from "./auth.js";
-import { currencyFormatter, getDaysLeft, showSuccess } from "./utils.js";
+import {
+  currencyFormatter,
+  formattedDate,
+  formattedDateDetailed,
+  getDaysLeft,
+  showSuccess,
+} from "./utils.js";
 
 export class Admin {
   constructor() {
@@ -105,6 +111,10 @@ export class Admin {
       this.#loadUsers(data);
     } else if (section === "campaigns") {
       this.#loadCampaigns(data.sort((a, b) => a.approved - b.approved));
+    } else if (section === "pledges") {
+      this.#loadPledges(
+        data.sort((a, b) => new Date(b.date) - new Date(a.date)),
+      );
     }
   }
 
@@ -129,9 +139,6 @@ export class Admin {
     }
 
     const data = await response.json();
-
-    console.log(data);
-    
 
     if (section === "users") {
       this.#loadUsers(data);
@@ -235,71 +242,119 @@ export class Admin {
       card.addEventListener("click", (e) => {
         if (e.target.tagName === "BUTTON") return;
 
-        const modal = document.getElementById("campaign-modal");
-        modal.classList.remove("hidden");
-
-        const closeBtn = document.getElementById("close-modal");
-
-        document.body.style.overflow = "hidden";
-
-        const closeModal = () => {
-          modal.classList.add("hidden");
-          document.body.style.overflow = "auto";
-        };
-
-        closeBtn.addEventListener("click", closeModal);
-
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-            closeModal();
-          }
-        });
-
-        const oldElement = this.overviewVideo;
-        const newElement = oldElement.cloneNode(true);
-        oldElement.replaceWith(newElement);
-        this.overviewVideo = newElement;
-
-        if (camp.video !== "") {
-          newElement.style.display = "block";
-          newElement.addEventListener("click", () => {
-            window.open(camp.video, "_blank");
-          });
-        } else {
-          newElement.style.display = "none";
-        }
-
-        this.overviewTitle.textContent = camp.title;
-        this.overviewCat.textContent = camp.category;
-        this.overviewAmount.textContent = `Goal: ${this.formatter_global.format(camp.goal)}`;
-        const daysLeft = getDaysLeft(camp.deadline);
-        this.overviewDays.textContent = `${daysLeft} Days`;
-        this.overviewImg.src = camp.img;
-
-        this.overviewShortDesc.textContent = camp.shortDesc;
-        this.overviewLocation.textContent = camp.location;
-        this.overviewRLdesc.textContent = camp.longDesc;
-        this.overviewRLstory.textContent = camp.story;
-
-        const defaultTab = document.querySelector('input[name="view"]:checked');
-
-        if (defaultTab) {
-          const desc = document.querySelector(`.long-${defaultTab.value}`);
-          desc.classList.remove("hidden");
-        }
-
-        document.querySelectorAll('input[name="view"]').forEach((radio) => {
-          radio.addEventListener("change", (e) => {
-            this.#resetRadios();
-            document
-              .querySelector(`.long-${e.target.value}`)
-              .classList.remove("hidden");
-          });
-        });
+        this.#loadCampModal(camp);
       });
 
       this.sectionContainer.appendChild(clone);
     });
+  }
+
+  #loadCampModal(camp) {
+    const modal = document.getElementById("campaign-modal");
+    modal.classList.remove("hidden");
+
+    const closeBtn = document.getElementById("close-modal");
+
+    document.body.style.overflow = "hidden";
+
+    const closeModal = () => {
+      modal.classList.add("hidden");
+      document.body.style.overflow = "auto";
+    };
+
+    closeBtn.addEventListener("click", closeModal);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+        closeModal();
+      }
+    });
+
+    const oldElement = this.overviewVideo;
+    const newElement = oldElement.cloneNode(true);
+    oldElement.replaceWith(newElement);
+    this.overviewVideo = newElement;
+
+    if (camp.video !== "") {
+      newElement.style.display = "block";
+      newElement.addEventListener("click", () => {
+        window.open(camp.video, "_blank");
+      });
+    } else {
+      newElement.style.display = "none";
+    }
+
+    this.overviewTitle.textContent = camp.title;
+    this.overviewCat.textContent = camp.category;
+    this.overviewAmount.textContent = `Goal: ${this.formatter_global.format(camp.goal)}`;
+    const daysLeft = getDaysLeft(camp.deadline);
+    this.overviewDays.textContent = `${daysLeft} Days`;
+    this.overviewImg.src = camp.img;
+
+    this.overviewShortDesc.textContent = camp.shortDesc;
+    this.overviewLocation.textContent = camp.location;
+    this.overviewRLdesc.textContent = camp.longDesc;
+    this.overviewRLstory.textContent = camp.story;
+
+    const defaultTab = document.querySelector('input[name="view"]:checked');
+
+    if (defaultTab) {
+      const desc = document.querySelector(`.long-${defaultTab.value}`);
+      desc.classList.remove("hidden");
+    }
+
+    document.querySelectorAll('input[name="view"]').forEach((radio) => {
+      radio.addEventListener("change", (e) => {
+        this.#resetRadios();
+        document
+          .querySelector(`.long-${e.target.value}`)
+          .classList.remove("hidden");
+      });
+    });
+  }
+
+  async #fetchSignleCampaign(id) {
+    const response = await fetch(`/campaigns/${id}`);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data;
+  }
+
+  async #loadPledges(data) {
+    const template = document.getElementById("pledge-card-template");
+
+    this.sectionContainer.replaceChildren();
+
+    for (const pledge of data) {
+      const clone = template.content.cloneNode(true);
+
+      clone.querySelector(".user-meta h4").textContent = pledge.backerName;
+      clone.querySelector(".user-meta p").textContent = pledge.backerEmail;
+      clone.querySelector(".amount").textContent = this.formatter_global.format(
+        pledge.amount,
+      );
+      clone.querySelector(".status-pill").textContent = pledge.method;
+      clone.querySelector(".method").textContent = pledge.method;
+      clone.querySelector(".date").textContent = formattedDateDetailed(
+        pledge.date,
+      );
+
+      const camData = await this.#fetchSignleCampaign(pledge.campaign);
+
+      clone.querySelector(".btn-text").textContent = camData.title;
+      const infoBtn = clone.querySelector(".btn-ban");
+
+      infoBtn.addEventListener("click", () => {
+        this.#loadCampModal(camData);
+      });
+
+      this.sectionContainer.appendChild(clone);
+    }
   }
 
   #resetRadios() {
@@ -316,7 +371,7 @@ export class Admin {
     }
 
     const data = await response.json();
-    
+
     return [
       data.reduce((sum, item) => sum + parseInt(item.amount), 0),
       data.length,

@@ -106,6 +106,36 @@
             </div>
           </nav>
         </header>
+        <template id="pledge-card-template">
+          <div class="user-container">
+            <div class="user-card">
+              <div class="card-header">
+                <div class="user-meta">
+                  <h4></h4>
+                  <p></p>
+                </div>
+                <span class="status-pill active"></span>
+              </div>
+              <div class="user-details">
+                <div class="detail-item">
+                  <span class="detail-label">Amount</span>
+                  <span class="amount"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Payment Method</span>
+                  <span class="method" style="text-transform: capitalize;"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Date</span>
+                  <span class="date"></span>
+                </div>
+              </div>
+              <button class="btn-ban unban">
+                <i class="bi bi-info-circle btn-text">Campaign Info</i>
+              </button>
+            </div>
+          </div>
+        </template>
         <template id="user-card-template">
           <div class="user-container">
             <div class="user-card">
