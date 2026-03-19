@@ -9,6 +9,7 @@ import {
 } from "./auth.js";
 import { NewCampaign } from "./new_camp.js";
 import { Admin } from "./admin.js";
+import { Profile } from "./profile.js";
 
 const path = window.location.pathname;
 
@@ -46,5 +47,12 @@ if (path === "/admin.html") {
   if (!requireAuth()) {
     const AdminPage = new Admin();
     AdminPage.init();
+  }
+}
+
+if (path === "/profile.html") {
+  if (!requireAuth()) {
+    const ProfilePage = new Profile();
+    ProfilePage.init();
   }
 }

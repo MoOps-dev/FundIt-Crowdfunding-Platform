@@ -368,7 +368,7 @@ export class NewCampaign {
       story: formData.get("story"),
       location: formData.get("location"),
       approved: false,
-      owner_id: parseInt(getCurrentUser().id),
+      owner_id: getCurrentUser().id,
       img: this.pickedBase64,
     };
 
