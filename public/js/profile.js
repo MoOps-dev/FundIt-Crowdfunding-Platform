@@ -220,7 +220,7 @@ export class Profile {
 
       const editBtn = clone.querySelector(".btn-edit");
       editBtn.addEventListener("click", () => {
-        // this.#approveCamp(camp);
+        window.location.href = `./new-campaign.html?edit=true&id=${camp.id}`;
       });
 
       const card = clone.querySelector(".campaign-card");

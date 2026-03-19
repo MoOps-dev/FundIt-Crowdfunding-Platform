@@ -1,5 +1,5 @@
 import { getCurrentUser, isLoggedIn } from "./auth.js";
-import { currencyFormatter, showSuccess } from "./utils.js";
+import { currencyFormatter, getDaysLeft, showSuccess } from "./utils.js";
 
 export class NewCampaign {
   constructor() {
@@ -64,6 +64,10 @@ export class NewCampaign {
     this.formatter_global = currencyFormatter(0);
 
     this.pickedBase64;
+
+    const params = new URLSearchParams(window.location.search);
+    this.mode = params.get("edit") || false;
+    this.campId = params.get("id") || "";
   }
 
   init() {
@@ -72,7 +76,63 @@ export class NewCampaign {
       this.#initNewCamp();
       this.#initPreviousBtn();
       this.#initImagePicker();
+      if (this.mode) this.#initEditPage();
     }
+  }
+
+  async #initEditPage() {
+    const pageTitle = document.querySelector(".back-home-camp h4");
+    pageTitle.textContent = "Update your campaign";
+
+    const campInfo = await this.#fetchSignleCampaign(this.campId);
+
+    const campTitle = document.getElementById("title");
+    campTitle.value = campInfo.title;
+
+    const campShort = document.getElementById("shortdesc");
+    campShort.value = campInfo.shortDesc;
+
+    const campCat = this.categoryValueText;
+    this.hiddenInput.value = campInfo.category;
+    campCat.textContent = campInfo.category;
+
+    const campLocation = document.getElementById("location");
+    campLocation.value = campInfo.location;
+
+    const campLong = document.getElementById("longdesc");
+    campLong.value = campInfo.longDesc;
+
+    const campAmount = document.getElementById("amount");
+    campAmount.value = campInfo.goal;
+
+    const campDays = document.getElementById("days");
+    campDays.value = getDaysLeft(campInfo.deadline);
+
+    const campStory = document.getElementById("story");
+    campStory.value = campInfo.story;
+
+    this.pickerArea.classList.add("hidden");
+    this.imagePreview.style.display = "block";
+    this.removeImgBtn.style.display = "block";
+    this.imagePreview.src = campInfo.img;
+    this.pickedBase64 = campInfo.img;
+
+    const campVideo = document.getElementById("video");
+    campVideo.value = campInfo.video;
+
+    this.launchCampaignBtn.textContent = "Update";
+  }
+
+  async #fetchSignleCampaign(id) {
+    const response = await fetch(`/campaigns/${id}`);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data;
   }
 
   #initCustomSelect() {
@@ -166,7 +226,7 @@ export class NewCampaign {
       "Campaign image is required. (PNG, JPG up to 10MB)";
 
     if (this.imagePickerSection.offsetParent !== null) {
-      if (!this.imagePicker.checkValidity()) {
+      if (!this.imagePicker.checkValidity() && !this.mode) {
         this.imagePickerSection.classList.add("invalid");
         this.imagePickerErrorMsg.style.display = "block";
         valid = false;
@@ -376,10 +436,12 @@ export class NewCampaign {
     const success = await this.#fetchCampaignRegister(newCampaign);
     if (success) {
       showSuccess(
-        "Your campaign has been saved, an admin will review it for approval within 48 hours.",
+        this.mode
+          ? "Your campaign info has been updated, an admin will review it for approval within 48 hours."
+          : "Your campaign has been saved, an admin will review it for approval within 48 hours.",
       );
       setTimeout(() => {
-        window.location.replace("/index.html");
+        window.location.replace("/profile.html");
       }, 3000);
     } else {
       this.#enableLaunchBtn();
@@ -387,13 +449,16 @@ export class NewCampaign {
   }
 
   async #fetchCampaignRegister(campData) {
-    const response = await fetch("/campaigns", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `/campaigns${this.mode ? `/${this.campId}` : ``}`,
+      {
+        method: this.mode ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(campData),
       },
-      body: JSON.stringify(campData),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status}`);
@@ -404,12 +469,12 @@ export class NewCampaign {
 
   #disableLaunchBtn() {
     this.launchCampaignBtn.disabled = true;
-    this.launchCampaignBtn.textContent = "Launching...";
+    this.launchCampaignBtn.textContent = this.mode ? "Updating..." : "Launching...";
   }
 
   #enableLaunchBtn() {
     this.launchCampaignBtn.disabled = false;
-    this.launchCampaignBtn.textContent = "Launch";
+    this.launchCampaignBtn.textContent = this.mode ? "Update" : "Launch";
   }
 
   #processDeadline(daysToAdd) {

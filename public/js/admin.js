@@ -125,7 +125,7 @@ export class Admin {
     if (section === "users") {
       filter = `{"or":[{"firstName":{"contains":"${trimmedQuery}"}},{"lastName":{"contains":"${trimmedQuery}"}},{"role":{"contains":"${trimmedQuery}"}},{"email":{"contains":"${trimmedQuery}"}}]}`;
     } else if (section === "campaigns") {
-      filter = `{"or":[{"title":{"contains":"${trimmedQuery}"}},{"goal":{"contains":"${trimmedQuery}"}},{"shortDesc":{"contains":"${trimmedQuery}"}},{"category":{"contains":"${trimmedQuery}"}}]}`;
+      filter = `{"or":[{"title":{"contains":"${trimmedQuery}"}},{"goal":{"contains":"${trimmedQuery}"}},{"shortDesc":{"contains":"${trimmedQuery}"}},{"category":{"contains":"${trimmedQuery}"}},{"location":{"contains":"${trimmedQuery}"}}]}`;
     }
     const url = `/${section}?_where=${encodeURIComponent(filter)}`;
 
@@ -178,12 +178,12 @@ export class Admin {
     });
   }
 
-  #loadCampaigns(data) {
+  async #loadCampaigns(data) {
     const template = document.getElementById("campaign-card-template");
 
     this.sectionContainer.replaceChildren();
 
-    data.forEach(async (camp) => {
+    for (const camp of data) {
       const clone = template.content.cloneNode(true);
 
       clone.querySelector(".campaign-title").textContent = camp.title;
@@ -197,11 +197,21 @@ export class Admin {
       if (camp.approved) {
         clone.querySelector(".status-pill").textContent = "Approved";
         clone.querySelector(".status-pill").classList.add("approved");
-        clone.querySelector(".admin-actions").classList.add("hidden");
+        clone
+          .querySelector(".admin-actions .btn-approve")
+          .classList.add("hidden");
+          clone
+            .querySelector(".admin-actions .btn-delete")
+            .classList.add("hidden");
       } else {
         clone.querySelector(".status-pill").textContent = "Pending Approval";
         clone.querySelector(".status-pill").classList.add("waiting");
       }
+
+      const editBtn = clone.querySelector(".btn-edit");
+      editBtn.addEventListener("click", () => {
+        window.location.href = `./new-campaign.html?edit=true&id=${camp.id}`;
+      });
 
       const daysLeft = getDaysLeft(camp.deadline);
 
@@ -246,7 +256,7 @@ export class Admin {
       });
 
       this.sectionContainer.appendChild(clone);
-    });
+    }
   }
 
   #loadCampModal(camp) {
