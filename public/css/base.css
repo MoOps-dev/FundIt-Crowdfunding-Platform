@@ -5,6 +5,18 @@
   font-family: "Inter", sans-serif;
 }
 
+body {
+  color: var(--primary);
+}
+
+a, 
+a[href^="tel"], 
+a[href^="sms"], 
+[x-apple-data-detectors] {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
 .loading {
   display: flex;
   justify-content: center;

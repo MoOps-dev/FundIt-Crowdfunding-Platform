@@ -63,6 +63,8 @@ export class Index {
     this.paymentInputs = this.paymentFlow.querySelectorAll(".primary-input");
     this.backToCampInfo = document.getElementById("back-to-camp-info");
     this.pledgeBtn = document.getElementById("pledge-button");
+    this.modal = document.getElementById("campaign-modal");
+    this.modalBody = document.getElementById("modal-body");
 
     this.paymentTermsCheckbox = document.getElementById("check");
     this.paymentTermsErrorMsg =
@@ -258,15 +260,15 @@ export class Index {
 
         this.#resetModal();
 
-        const modal = document.getElementById("campaign-modal");
-        modal.classList.remove("hidden");
+        
+        this.modal.classList.remove("hidden");
 
         const closeBtn = document.getElementById("close-modal");
 
         document.body.style.overflow = "hidden";
 
         const closeModal = () => {
-          modal.classList.add("hidden");
+          this.modal.classList.add("hidden");
           document.body.style.overflow = "auto";
         };
 
@@ -275,7 +277,7 @@ export class Index {
         document.addEventListener(
           "keydown",
           (e) => {
-            if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+            if (e.key === "Escape" && !this.modal.classList.contains("hidden")) {
               closeModal();
             }
           },
@@ -475,6 +477,8 @@ export class Index {
         window.location.replace("./login.html");
         return;
       }
+
+      this.modalBody.scrollTop = 0;
 
       const defaultTab = document.querySelector(
         'input[name="payment-method"]:checked',

@@ -144,14 +144,16 @@ export class Login {
   }
 
   async #checkUser(email, password) {
-    const response = await fetch(
-      `/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
-    );
+    const response = await fetch(`/users?email=${encodeURIComponent(email)}`);
+    const users = await response.json();
 
-    if (!response.ok) {
-      throw new Error(`Request failed with status ${response.status}`);
+    if (users.length === 0) return null;
+
+    const user = users[0];
+    if (String(user.password).trim() === String(password).trim()) {
+      return [user];
     }
 
-    return await response.json();
+    return [];
   }
 }
