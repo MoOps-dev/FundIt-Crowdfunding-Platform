@@ -604,3 +604,20 @@
 .cat-list li:hover {
   cursor: pointer;
 }
+
+.main-footer {
+  color: var(--background) !important;
+}
+
+.main-footer h3, 
+.main-footer h4, 
+.main-footer p, 
+.main-footer a, 
+.main-footer span,
+.main-footer i {
+  color: var(--background) !important;
+}
+
+.main-footer [x-apple-data-detectors] {
+  color: var(--background) !important;
+}
