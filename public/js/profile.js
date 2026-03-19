@@ -127,6 +127,8 @@ export class Profile {
     } else {
       filter = `backerEmail`;
       grapper = getCurrentUser().email;
+      console.log(getCurrentUser().email);
+      
     }
 
     const response = await fetch(`/${section}?${filter}=${grapper}`);
