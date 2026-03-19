@@ -34,6 +34,8 @@ export class Admin {
     this.overviewRLdesc = document.getElementById("overview-ldesc");
     this.overviewRLstory = document.getElementById("overview-lstory");
 
+    this.formatter_global = currencyFormatter(0);
+
     this.activeSection;
   }
 
@@ -128,6 +130,9 @@ export class Admin {
 
     const data = await response.json();
 
+    console.log(data);
+    
+
     if (section === "users") {
       this.#loadUsers(data);
     } else if (section === "campaigns") {
@@ -181,7 +186,7 @@ export class Admin {
       clone.querySelector(".author-name").textContent =
         await this.#getCampaignAuthor(camp.owner_id);
       clone.querySelector(".goal-amount").textContent =
-        currencyFormatter.format(camp.goal);
+        this.formatter_global.format(camp.goal);
       if (camp.approved) {
         clone.querySelector(".status-pill").textContent = "Approved";
         clone.querySelector(".status-pill").classList.add("approved");
@@ -204,7 +209,7 @@ export class Admin {
       );
 
       clone.querySelector(".raised-amount").textContent =
-        currencyFormatter.format(raisedAmount);
+        this.formatter_global.format(raisedAmount);
       clone.querySelector(".backers-count").textContent = backersCount;
 
       const percentage = (parseInt(raisedAmount) / parseInt(camp.goal)) * 100;
@@ -250,18 +255,23 @@ export class Admin {
           }
         });
 
+        const oldElement = this.overviewVideo;
+        const newElement = oldElement.cloneNode(true);
+        oldElement.replaceWith(newElement);
+        this.overviewVideo = newElement;
+
         if (camp.video !== "") {
-          this.overviewVideo.style.display = "block";
-          this.overviewVideo.addEventListener("click", () => {
+          newElement.style.display = "block";
+          newElement.addEventListener("click", () => {
             window.open(camp.video, "_blank");
           });
         } else {
-          this.overviewVideo.style.display = "none";
+          newElement.style.display = "none";
         }
 
         this.overviewTitle.textContent = camp.title;
         this.overviewCat.textContent = camp.category;
-        this.overviewAmount.textContent = `Goal: ${currencyFormatter.format(camp.goal)}`;
+        this.overviewAmount.textContent = `Goal: ${this.formatter_global.format(camp.goal)}`;
         const daysLeft = getDaysLeft(camp.deadline);
         this.overviewDays.textContent = `${daysLeft} Days`;
         this.overviewImg.src = camp.img;
@@ -299,14 +309,14 @@ export class Admin {
   }
 
   async #getCampaignPledges(id) {
-    const response = await fetch(`/pledges?campaign=${encodeURIComponent(id)}`);
+    const response = await fetch(`/pledges?campaign=${id}`);
 
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status}`);
     }
 
     const data = await response.json();
-
+    
     return [
       data.reduce((sum, item) => sum + parseInt(item.amount), 0),
       data.length,

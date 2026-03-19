@@ -9,11 +9,12 @@ export function showSuccess(message) {
   }, 3000);
 }
 
-export const currencyFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
+export const currencyFormatter = (digits) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: digits,
+  });
 
 export function getDaysLeft(targetDateString) {
   const now = new Date();

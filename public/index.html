@@ -244,6 +244,11 @@
         <div id="campaign-modal" class="modal-overlay hidden">
           <div class="modal-content">
             <div class="review-header">
+              <div>
+                <button id="back-to-camp-info" class="close-btn hidden">
+                  <i class="bi bi-arrow-left"></i>
+                </button>
+              </div>
               <span class="window-info">Overview</span>
               <button id="close-modal" class="close-btn">
                 <i class="bi bi-x-lg"></i>
@@ -270,7 +275,7 @@
               </header>
               <section class="camp-details-overview">
                 <div class="back-top">
-                  <div>
+                  <div class="modal-top-image">
                     <div class="overview-top">
                       <div class="image-container">
                         <img
@@ -291,71 +296,283 @@
                       <div><span id="overview-sdesc"></span></div>
                     </div>
                   </div>
+                  <form id="pledge-form" class="payment-flow hidden" novalidate>
+                    <section class="login-details">
+                      <div class="sign-in">
+                        <h4>Pledge Amount</h4>
+                        <h5>
+                          Support this campaign with an amount of your choice.
+                        </h5>
+                      </div>
+                      <div>
+                        <label for="amount">Amount (USD) *</label>
+                        <div class="email-wrap">
+                          <i class="bi bi-currency-dollar email-icon"></i>
+                          <input
+                            id="amount"
+                            class="primary-input"
+                            type="number"
+                            name="amount"
+                            placeholder="500"
+                            min="10"
+                            max="10000"
+                            step="1"
+                            required
+                            autocomplete="off"
+                          />
+                        </div>
+                        <small class="error-message"
+                          >Enter a pledge amount between $10 and $10,000.</small
+                        >
+                      </div>
+                    </section>
+                    <div class="payment-group">
+                      <label class="payment-card">
+                        <input
+                          type="radio"
+                          name="payment-method"
+                          value="card"
+                          checked
+                        />
+                        <div class="card-content-payment">
+                          <i class="bi bi-credit-card"></i>
+                          <span class="method-title">Card Payment</span>
+                        </div>
+                      </label>
+
+                      <label class="payment-card">
+                        <input
+                          type="radio"
+                          name="payment-method"
+                          value="paypal"
+                        />
+                        <div class="card-content-payment">
+                          <i class="bi bi-wallet2"></i>
+                          <span class="method-title">PayPal</span>
+                        </div>
+                      </label>
+                    </div>
+
+                    <div class="card-details-form">
+                      <div class="pay-card hidden">
+                        <div>
+                          <label for="cc-number">Card Number *</label>
+                          <div class="email-wrap">
+                            <i class="bi bi-credit-card-2-front email-icon"></i>
+                            <input
+                              id="cc-number"
+                              class="primary-input"
+                              type="text"
+                              name="cc-number"
+                              maxlength="16"
+                              placeholder="1234 5678 9012 3456"
+                              required
+                              autocomplete="cc-number"
+                            />
+                          </div>
+                          <small class="error-message"
+                            >Please enter your 16-digit card number.</small
+                          >
+                        </div>
+
+                        <div class="register-name">
+                          <div>
+                            <label for="expire-date">Expirey Date *</label>
+                            <div class="email-wrap">
+                              <i
+                                class="bi bi-credit-card-2-back email-icon"
+                              ></i>
+                              <input
+                                id="expire-date"
+                                class="primary-input"
+                                placeholder="MM / YY"
+                                maxlength="5"
+                                required
+                                autocomplete="cc-exp"
+                              />
+                            </div>
+                            <small class="error-message"
+                              >Enter a valid expiry date (MM/YY).</small
+                            >
+                          </div>
+
+                          <div>
+                            <label for="cc-cvv">CVV *</label>
+                            <div class="email-wrap">
+                              <i
+                                class="bi bi-credit-card-2-back email-icon"
+                              ></i>
+                              <input
+                                id="cc-cvv"
+                                class="primary-input"
+                                type="text"
+                                name="cc-cvv"
+                                maxlength="3"
+                                placeholder="123"
+                                required
+                                autocomplete="cc-csc"
+                              />
+                            </div>
+                            <small class="error-message"
+                              >Enter the 3-digit security code on the back of
+                              your card.</small
+                            >
+                          </div>
+                        </div>
+
+                        <div>
+                          <label for="zip-code">Zip Code *</label>
+                          <div class="email-wrap">
+                            <i class="bi bi-geo-alt email-icon"></i>
+                            <input
+                              id="zip-code"
+                              class="primary-input"
+                              type="text"
+                              name="zip-code"
+                              maxlength="5"
+                              placeholder="12345"
+                              required
+                              autocomplete="postal-code"
+                            />
+                          </div>
+                          <small class="error-message"
+                            >Enter a valid zip or postal code.</small
+                          >
+                        </div>
+                      </div>
+                      <div class="pay-paypal hidden">
+                        <div id="paypal-info" class="info-alert">
+                          <i class="bi bi-info-circle"></i>
+                          <span
+                            >You'll be redirected to PayPal to complete your
+                            payment securely.</span
+                          >
+                        </div>
+                      </div>
+                      <label class="terms-label">
+                        <input id="check" type="checkbox" required />
+                        <span
+                          >I agree to the Terms of Use and understand that
+                          FundIt is not responsible for project completion or
+                          rewards delivery.</span
+                        >
+                        <small class="error-message"
+                          >You must agree to the terms and conditions.</small
+                        >
+                      </label>
+                      <div class="security-info-box">
+                        <i class="bi bi-lock-fill security-icon"></i>
+                        <span class="security-text">
+                          Your payment information is encrypted and secure. We
+                          never store your card details.
+                        </span>
+                      </div>
+                    </div>
+                  </form>
                   <div class="funding-card">
-                    <div class="card-badges">
-                      <span class="badge badge-funded"></span>
-                      <span class="badge badge-category"></span>
-                    </div>
-
-                    <div class="money-stats">
-                      <h2 class="amount-raised"></h2>
-                      <p class="goal-text"></p>
-                    </div>
-
-                    <div class="progress-bar-container">
-                      <div class="progress-fill"></div>
-                    </div>
-
-                    <div class="stats-row-view">
-                      <div class="stat-item">
-                        <span id="backers" class="stat-number-view"></span>
-                        <span class="stat-label-view">backers</span>
+                    <div class="funding-back hidden">
+                      <div class="card-badges">
+                        <span class="badge badge-funded"></span>
+                        <span class="badge badge-category"></span>
                       </div>
-                      <div class="stat-divider"></div>
-                      <div class="stat-item">
-                        <span id="days" class="stat-number-view"></span>
-                        <span class="stat-label-view">days to go</span>
+
+                      <div class="money-stats">
+                        <h2 class="amount-raised"></h2>
+                        <p class="goal-text"></p>
+                      </div>
+
+                      <div class="progress-bar-container">
+                        <div class="progress-fill"></div>
+                      </div>
+
+                      <div class="stats-row-view">
+                        <div class="stat-item">
+                          <span id="backers" class="stat-number-view"></span>
+                          <span class="stat-label-view">backers</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                          <span id="days-to-go" class="stat-number-view"></span>
+                          <span class="stat-label-view">days to go</span>
+                        </div>
+                      </div>
+
+                      <button data-id="" class="btn-back-project">
+                        Back this campaign
+                      </button>
+
+                      <div class="card-footer-info">
+                        <div>
+                          <i class="bi bi-calendar3"></i>
+                          <span id="deadline"></span>
+                        </div>
+                        <div>
+                          <i class="bi bi-geo-alt"></i>
+                          <span id="location"></span>
+                        </div>
                       </div>
                     </div>
-
-                    <button class="btn-back-project">Back this campaign</button>
-
-                    <div class="card-footer-info">
-                      <div>
-                        <i class="bi bi-calendar3"></i>
-                        <span id="deadline"></span>
+                    <div class="funding-pay">
+                      <h4>Order Summary</h4>
+                      <div class="amount-container">
+                        <span>Pledge amount</span>
+                        <span id="initial-amount" class="pay-money">$0.00</span>
                       </div>
-                      <div>
-                        <i class="bi bi-geo-alt"></i>
-                        <span id="location"></span>
+                      <hr />
+                      <div class="fee-container">
+                        <span>Platform fee (5%)</span>
+                        <span id="fee-amount" class="pay-money">$0.00</span>
                       </div>
+                      <hr />
+                      <div class="total-payment">
+                        <span>Total</span>
+                        <span id="total-amount">$0.00</span>
+                      </div>
+                      <button
+                        id="pledge-button"
+                        type="submit"
+                        form="pledge-form"
+                        class="primary-btn"
+                        data-id=""
+                        data-amount=""
+                      >
+                        Pledge $0.00
+                      </button>
                     </div>
                   </div>
                 </div>
-                <div class="tab-switcher">
-                  <input
-                    type="radio"
-                    name="view"
-                    id="cabout"
-                    value="cabout"
-                    checked
-                  />
-                  <label for="cabout">About this Campaign</label>
+                <div class="camp-info-desc">
+                  <div class="tab-switcher">
+                    <input
+                      type="radio"
+                      name="view"
+                      id="cabout"
+                      value="cabout"
+                      checked
+                    />
+                    <label for="cabout">About this Campaign</label>
 
-                  <input type="radio" name="view" id="cstory" value="cstory" />
-                  <label for="cstory">Story</label>
-                </div>
-                <div class="long-cabout hidden">
-                  <h4>About this Campaign</h4>
-                  <p style="font-size: 14px" id="overview-ldesc"></p>
-                </div>
-                <div class="long-cstory hidden">
-                  <h4>Campaign Story</h4>
-                  <p style="font-size: 14px" id="overview-lstory"></p>
+                    <input
+                      type="radio"
+                      name="view"
+                      id="cstory"
+                      value="cstory"
+                    />
+                    <label for="cstory">Story</label>
+                  </div>
+                  <div class="long-cabout hidden">
+                    <h4>About this Campaign</h4>
+                    <p style="font-size: 14px" id="overview-ldesc"></p>
+                  </div>
+                  <div class="long-cstory hidden">
+                    <h4>Campaign Story</h4>
+                    <p style="font-size: 14px" id="overview-lstory"></p>
+                  </div>
                 </div>
               </section>
             </div>
           </div>
+          <div id="toast" class="toast"></div>
         </div>
       </section>
     </main>

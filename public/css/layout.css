@@ -580,3 +580,7 @@
   flex-wrap: nowrap;
   align-items: center;
 }
+
+.payment-flow .login-details {
+  max-width: none;
+}

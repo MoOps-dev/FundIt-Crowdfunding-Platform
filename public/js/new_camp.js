@@ -61,6 +61,7 @@ export class NewCampaign {
     this.overviewRLstory = document.getElementById("overview-lstory");
 
     this.launchCampaignBtn = document.getElementById("launch-campaign");
+    this.formatter_global = currencyFormatter(0);
 
     this.pickedBase64;
   }
@@ -334,7 +335,7 @@ export class NewCampaign {
 
     this.overviewTitle.textContent = formData.get("title");
     this.overviewCat.textContent = this.categoryValueText.textContent;
-    this.overviewAmount.textContent = `Goal: ${currencyFormatter.format(formData.get("amount"))}`;
+    this.overviewAmount.textContent = `Goal: ${this.formatter_global.format(formData.get("amount"))}`;
     this.overviewDays.textContent = `${formData.get("days")} Days`;
     this.overviewImg.src = this.pickedBase64;
 
@@ -359,7 +360,7 @@ export class NewCampaign {
     const newCampaign = {
       title: formData.get("title"),
       category: this.categoryValueText.textContent.trim(),
-      goal: formData.get("amount"),
+      goal: parseInt(formData.get("amount")),
       deadline: this.#processDeadline(parseInt(formData.get("days"))),
       video: formData.get("video"),
       shortDesc: formData.get("shortdesc"),
@@ -367,7 +368,7 @@ export class NewCampaign {
       story: formData.get("story"),
       location: formData.get("location"),
       approved: false,
-      owner_id: getCurrentUser().id,
+      owner_id: parseInt(getCurrentUser().id),
       img: this.pickedBase64,
     };
 

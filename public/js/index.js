@@ -1,5 +1,10 @@
 import { getCurrentUser, isLoggedIn, logout } from "./auth.js";
-import { currencyFormatter, formattedDate, getDaysLeft } from "./utils.js";
+import {
+  currencyFormatter,
+  formattedDate,
+  getDaysLeft,
+  showSuccess,
+} from "./utils.js";
 
 export class Index {
   constructor() {
@@ -36,7 +41,7 @@ export class Index {
     this.goalText = document.querySelector(".goal-text");
     this.progressFill = document.querySelector(".progress-fill");
     this.backers = document.getElementById("backers");
-    this.days = document.getElementById("days");
+    this.days = document.getElementById("days-to-go");
     this.deadline = document.getElementById("deadline");
     this.location = document.getElementById("location");
     this.owner = document.querySelector(".window-info");
@@ -49,7 +54,30 @@ export class Index {
     this.searchBox = document.getElementById("search");
     this.searchBoxRes = document.getElementById("search-res");
 
-    this.ITEMS_PER_PAGE = 8
+    this.backCampaign = document.querySelector(".btn-back-project");
+    this.fundingPay = document.querySelector(".funding-pay");
+    this.fundingBack = document.querySelector(".funding-back");
+    this.descSection = document.querySelector(".camp-info-desc");
+    this.modalImg = document.querySelector(".modal-top-image");
+    this.paymentFlow = document.getElementById("pledge-form");
+    this.paymentInputs = this.paymentFlow.querySelectorAll(".primary-input");
+    this.backToCampInfo = document.getElementById("back-to-camp-info");
+    this.pledgeBtn = document.getElementById("pledge-button");
+
+    this.paymentTermsCheckbox = document.getElementById("check");
+    this.paymentTermsErrorMsg =
+      document.querySelector(".terms-label").lastElementChild;
+
+    this.amountInput = document.getElementById("amount");
+    this.initialAmount = document.getElementById("initial-amount");
+    this.feeAmount = document.getElementById("fee-amount");
+    this.totalAmount = document.getElementById("total-amount");
+
+    this.formatter_global = currencyFormatter(0);
+
+    this.originalCampHeader;
+
+    this.ITEMS_PER_PAGE = 8;
     this.currentPage = 1;
   }
 
@@ -57,6 +85,8 @@ export class Index {
     this.#initNavbar();
     this.#fetchCampaigns();
     this.#initSearchFilters();
+    this.#initPaymentFlow();
+    this.#initSubmit();
   }
 
   #initNavbar() {
@@ -191,7 +221,7 @@ export class Index {
       clone.querySelector(".author-name").textContent = campOwner;
 
       clone.querySelector(".goal-amount").textContent =
-        currencyFormatter.format(camp.goal);
+        this.formatter_global.format(camp.goal);
       if (camp.approved) {
         clone.querySelector(".status-pill").textContent = "Approved";
         clone.querySelector(".status-pill").classList.add("approved");
@@ -210,7 +240,7 @@ export class Index {
       );
 
       clone.querySelector(".raised-amount").textContent =
-        currencyFormatter.format(raisedAmount);
+        this.formatter_global.format(raisedAmount);
       clone.querySelector(".backers-count").textContent = backersCount;
 
       const percentage = (parseInt(raisedAmount) / parseInt(camp.goal)) * 100;
@@ -226,6 +256,8 @@ export class Index {
       card.addEventListener("click", (e) => {
         if (e.target.tagName === "BUTTON") return;
 
+        this.#resetModal();
+
         const modal = document.getElementById("campaign-modal");
         modal.classList.remove("hidden");
 
@@ -238,26 +270,35 @@ export class Index {
           document.body.style.overflow = "auto";
         };
 
-        closeBtn.addEventListener("click", closeModal);
+        closeBtn.addEventListener("click", closeModal, { once: true });
 
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-            closeModal();
-          }
-        });
+        document.addEventListener(
+          "keydown",
+          (e) => {
+            if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+              closeModal();
+            }
+          },
+          { once: true },
+        );
+
+        const oldElement = this.overviewVideo;
+        const newElement = oldElement.cloneNode(true);
+        oldElement.replaceWith(newElement);
+        this.overviewVideo = newElement;
 
         if (camp.video !== "") {
-          this.overviewVideo.style.display = "block";
-          this.overviewVideo.addEventListener("click", () => {
+          newElement.style.display = "block";
+          newElement.addEventListener("click", () => {
             window.open(camp.video, "_blank");
           });
         } else {
-          this.overviewVideo.style.display = "none";
+          newElement.style.display = "none";
         }
 
         this.overviewTitle.textContent = camp.title;
         this.overviewCat.textContent = camp.category;
-        this.overviewAmount.textContent = `Goal: ${currencyFormatter.format(camp.goal)}`;
+        this.overviewAmount.textContent = `Goal: ${this.formatter_global.format(camp.goal)}`;
         const daysLeft = getDaysLeft(camp.deadline);
         this.overviewDays.textContent = `${daysLeft} Days`;
         this.overviewImg.src = camp.img;
@@ -277,18 +318,20 @@ export class Index {
         this.progressFill.style.width = `${safePercentage}%`;
         const defaultTab = document.querySelector('input[name="view"]:checked');
 
-        this.amountRaised.textContent = currencyFormatter.format(raisedAmount);
-        this.backers.textContent = backersCount;
-        this.days.textContent = daysLeft;
-        this.goalText.textContent = `pledged of ${currencyFormatter.format(camp.goal)} goal`;
-        this.deadline.textContent = `Ends ${formattedDate(camp.deadline)}`;
-        this.location.textContent = camp.location;
-        this.owner.textContent = `Campaign by ${campOwner}`;
-
         if (defaultTab) {
           const desc = document.querySelector(`.long-${defaultTab.value}`);
           desc.classList.remove("hidden");
         }
+
+        this.amountRaised.textContent =
+          this.formatter_global.format(raisedAmount);
+        this.backers.textContent = backersCount;
+        this.days.textContent = daysLeft;
+        this.goalText.textContent = `pledged of ${this.formatter_global.format(camp.goal)} goal`;
+        this.deadline.textContent = `Ends ${formattedDate(camp.deadline)}`;
+        this.location.textContent = camp.location;
+        this.owner.textContent = `Campaign by ${campOwner}`;
+        this.originalCampHeader = this.owner.textContent;
 
         document.querySelectorAll('input[name="view"]').forEach((radio) => {
           radio.addEventListener("change", (e) => {
@@ -298,6 +341,8 @@ export class Index {
               .classList.remove("hidden");
           });
         });
+
+        this.pledgeBtn.dataset.id = camp.id;
       });
 
       this.sectionContainer.appendChild(clone);
@@ -378,13 +423,11 @@ export class Index {
         this.#hideHero();
         const searchValue = this.searchBox.value || this.searchBoxRes.value;
         this.#fetchCampaigns(searchValue);
-        if (e.target.value !== ""){
-          this.discoverTitle.textContent = `${e.target.value} Campaigns`
-        }
-        else {
+        if (e.target.value !== "") {
+          this.discoverTitle.textContent = `${e.target.value} Campaigns`;
+        } else {
           this.discoverTitle.textContent = "Discover";
         }
-        
       });
     });
 
@@ -408,5 +451,172 @@ export class Index {
         this.#fetchCampaigns(value);
       }, 1000);
     });
+  }
+
+  #initPaymentFlow() {
+    this.backCampaign.addEventListener("click", (e) => {
+      if (!isLoggedIn()) {
+        window.location.replace("./login.html");
+        return;
+      }
+
+      const defaultTab = document.querySelector(
+        'input[name="payment-method"]:checked',
+      );
+
+      if (defaultTab) {
+        const desc = document.querySelector(`.pay-${defaultTab.value}`);
+        desc.classList.remove("hidden");
+      }
+
+      this.backToCampInfo.addEventListener("click", () => {
+        this.#resetModal();
+      });
+
+      document
+        .querySelectorAll('input[name="payment-method"]')
+        .forEach((radio) => {
+          radio.addEventListener("change", (e) => {
+            this.#resetPayRadios();
+            document
+              .querySelector(`.pay-${e.target.value}`)
+              .classList.remove("hidden");
+          });
+        });
+
+      this.fundingPay.classList.remove("hidden");
+      this.backToCampInfo.classList.remove("hidden");
+      this.paymentFlow.classList.remove("hidden");
+      this.descSection.classList.add("hidden");
+      this.modalImg.classList.add("hidden");
+      this.fundingBack.classList.add("hidden");
+      this.owner.textContent = "Back this Campaign";
+
+      this.amountInput.addEventListener("input", (e) => {
+        const value = parseFloat(e.target.value) || 0;
+        const fee = (value * 5) / 100;
+        const formatter_pledge = currencyFormatter(1);
+
+        this.initialAmount.textContent = formatter_pledge.format(value);
+        this.feeAmount.textContent = formatter_pledge.format(fee);
+        this.totalAmount.textContent = formatter_pledge.format(value + fee);
+        this.pledgeBtn.textContent = `Pledge ${this.totalAmount.textContent}`;
+        this.pledgeBtn.dataset.amount = value;
+      });
+    });
+  }
+
+  #initSubmit() {
+    this.paymentFlow.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!this.#validateInputs()) return;
+
+      this.#disablePledgeButton();
+
+      const campId = this.pledgeBtn.dataset.id;
+      const pledgeAmount = this.pledgeBtn.dataset.amount;
+
+      const method = document.querySelector(
+        'input[name="payment-method"]:checked',
+      );
+
+      const pledgeData = {
+        campaign: campId,
+        backerName: getCurrentUser().fullName,
+        backerEmail: getCurrentUser().email,
+        amount: parseInt(pledgeAmount),
+        method: method.value,
+        date: new Date(),
+      };
+
+      const success = await this.#fetchPledgePayment(pledgeData);
+      if (success) {
+        setTimeout(() => {
+          showSuccess(
+            "Your payment has been proccessed successfuly, Thanks your for your support <3",
+          );
+          this.#fetchCampaigns();
+          this.#resetModal();
+        }, 3000);
+      } else {
+        this.#enablePledgeButton();
+      }
+    });
+  }
+
+  async #fetchPledgePayment(data) {
+    const response = await fetch("/pledges", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    return true;
+  }
+
+  #validateInputs() {
+    let valid = true;
+
+    this.paymentInputs.forEach((input) => {
+      if (input.offsetParent !== null) {
+        const error = input.closest("div").nextElementSibling;
+
+        if (!input.checkValidity()) {
+          input.classList.add("invalid");
+          error.style.display = "block";
+          valid = false;
+        } else {
+          input.classList.remove("invalid");
+          error.style.display = "none";
+        }
+      }
+    });
+
+    if (!this.paymentTermsCheckbox.checkValidity()) {
+      this.paymentTermsCheckbox.classList.add("invalid");
+      this.paymentTermsErrorMsg.style.display = "block";
+      valid = false;
+    } else {
+      this.paymentTermsCheckbox.classList.remove("invalid");
+      this.paymentTermsErrorMsg.style.display = "none";
+    }
+
+    return valid;
+  }
+
+  #resetModal() {
+    this.fundingBack.classList.remove("hidden");
+    this.fundingPay.classList.add("hidden");
+    this.backToCampInfo.classList.add("hidden");
+    this.paymentFlow.classList.add("hidden");
+    this.descSection.classList.remove("hidden");
+    this.modalImg.classList.remove("hidden");
+    this.owner.textContent = this.originalCampHeader;
+    this.#enablePledgeButton();
+  }
+
+  #resetPayRadios() {
+    document
+      .querySelectorAll('input[name="payment-method"]')
+      .forEach((radio) => {
+        document.querySelector(`.pay-${radio.value}`).classList.add("hidden");
+      });
+  }
+
+  #disablePledgeButton() {
+    this.pledgeBtn.disabled = true;
+    this.pledgeBtn.textContent = "Processing Payment...";
+  }
+
+  #enablePledgeButton() {
+    this.pledgeBtn.disabled = false;
+    this.pledgeBtn.textContent = `Pledge ${this.totalAmount.textContent}`;
   }
 }
