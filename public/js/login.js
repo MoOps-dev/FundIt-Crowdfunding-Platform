@@ -52,6 +52,7 @@ export class Login {
 
       try {
         const userAuth = await this.#auth();
+        
         const user = userAuth[0];
 
         if (userAuth.length > 0) {
@@ -147,7 +148,7 @@ export class Login {
     const response = await fetch(`/users?email=${encodeURIComponent(email)}`);
     const users = await response.json();
 
-    if (users.length === 0) return null;
+    if (users.length === 0) return [];
 
     const user = users[0];
     if (String(user.password).trim() === String(password).trim()) {
