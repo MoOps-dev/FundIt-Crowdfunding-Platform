@@ -155,7 +155,7 @@
 }
 
 .sign-up a:hover {
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
 .checkbox-row a {
@@ -163,7 +163,7 @@
 }
 
 .checkbox-row a:hover {
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
 .profile-header {

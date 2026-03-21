@@ -139,7 +139,7 @@ a {
 }
 
 .forgot-pw a:hover {
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
 .sign-in h5 {
